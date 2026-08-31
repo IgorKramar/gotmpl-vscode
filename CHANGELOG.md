@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0
+
+- Ready for the Marketplace: icon, gallery banner, and a README written for
+  someone who has not installed the extension yet — what it does, what it does
+  not, and the limits it knows about.
+- Demo files under `examples/` show every kind of highlighting and every kind of
+  diagnostic, without pointing at anyone's real infrastructure.
+- Fixed: the "looks like a template" test accepted any lowercase word, which
+  made ordinary prose template-shaped — `"write {{ to open an action"` was
+  reported as an unclosed action. The name must now be one the reference knows.
+
 ## 0.4.0
 
 - Diagnostics for unclosed actions and unbalanced constructs: a construct with

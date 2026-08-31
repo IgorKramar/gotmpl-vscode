@@ -5,6 +5,7 @@
 // one line and closes on another — so this walks the document with a stack,
 // while src/cursor.js keeps owning the single-line question.
 const { actionSpans, HELMFILE, GO_BUILTIN, KEYWORDS } = require("./cursor.js");
+const { functionDoc } = require("./reference.js");
 
 const OPENING = new Set(["if", "range", "with", "define", "block"]);
 
@@ -17,15 +18,25 @@ const OPENING = new Set(["if", "range", "with", "define", "block"]);
  * prose, `"broken {{ requiredEnv "X"` is a real unclosed action, and the only
  * thing that would separate them — a closing `}}` — is exactly what is missing.
  * The tie is broken on what follows: a keyword, a known function, a path or a
- * variable reads as template; anything else reads as text. The cost is named in
- * KTD13: a literal `"{{ if"` inside a string will be reported.
+ * variable reads as template; anything else reads as text.
+ *
+ * The name must be one the reference actually knows. Accepting any lowercase
+ * identifier looked equivalent and was not: it made ordinary English prose
+ * template-shaped, so `"write {{ to open an action"` got reported. The cost
+ * that remains is narrower — a literal `"{{ if"` or `"{{ quote"` inside a
+ * string, where the word really is a template name.
  */
 function looksLikeTemplate(rest) {
   const head = rest.replace(/^-?\s*/, "");
   if (/^[.$]/.test(head)) return true;
   const word = head.match(/^[A-Za-z_][A-Za-z0-9_]*/)?.[0];
   if (!word) return false;
-  return KEYWORDS.has(word) || HELMFILE.has(word) || GO_BUILTIN.has(word) || /^[a-z]/.test(word);
+  return (
+    KEYWORDS.has(word) ||
+    HELMFILE.has(word) ||
+    GO_BUILTIN.has(word) ||
+    functionDoc(word) !== undefined
+  );
 }
 
 /**

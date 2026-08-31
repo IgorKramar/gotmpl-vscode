@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <rect width="128" height="128" rx="26" fill="#1a1b26"/>
+
+  <!-- YAML held inside the template action: keys and values, one nested level -->
+  <g stroke-linecap="round" stroke-width="6">
+    <line x1="46" y1="44" x2="66" y2="44" stroke="#f7768e"/>
+    <line x1="74" y1="44" x2="88" y2="44" stroke="#9ece6a"/>
+    <line x1="52" y1="64" x2="70" y2="64" stroke="#f7768e"/>
+    <line x1="78" y1="64" x2="88" y2="64" stroke="#e0af68"/>
+    <line x1="46" y1="84" x2="62" y2="84" stroke="#f7768e"/>
+    <line x1="70" y1="84" x2="88" y2="84" stroke="#9ece6a"/>
+  </g>
+
+  <!-- the delimiters, drawn as paths so no font has to be present -->
+  <g fill="none" stroke="#7aa2f7" stroke-width="6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M34 26 q-10 0 -10 12 v14 q0 12 -10 12 q10 0 10 12 v14 q0 12 10 12"/>
+    <path d="M22 26 q-6 0 -6 12 v14 q0 12 -8 12 q8 0 8 12 v14 q0 12 6 12" opacity="0.55"/>
+    <path d="M94 26 q10 0 10 12 v14 q0 12 10 12 q-10 0 -10 12 v14 q0 12 -10 12"/>
+    <path d="M106 26 q6 0 6 12 v14 q0 12 8 12 q-8 0 -8 12 v14 q0 12 -6 12" opacity="0.55"/>
+  </g>
+</svg>
