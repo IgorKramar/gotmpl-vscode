@@ -4,6 +4,7 @@
 // provider turns the returned plain objects into editor API items.
 const { allFunctions } = require("./reference.js");
 const { KEYWORD_DOCS } = require("./keywords.js");
+const { actionSpans } = require("./cursor.js");
 
 /** Paired constructs are offered as snippets that arrive already closed. */
 const SNIPPETS = [
@@ -13,32 +14,35 @@ const SNIPPETS = [
 ];
 
 /**
- * True when `character` sits inside a `{{ … }}` action — and not inside a
- * template comment, where a suggestion list would be noise.
+ * True when `character` sits in the expression part of an action — past the
+ * opening delimiter, before the closing one, and not inside a template
+ * comment. Standing on `{{` itself is not yet "inside": there is nothing to
+ * complete there.
  */
 function insideAction(line, character) {
-  let from = 0;
-  for (;;) {
-    const open = line.indexOf("{{", from);
-    if (open === -1) return false;
-    const close = line.indexOf("}}", open + 2);
-    const end = close === -1 ? line.length : close + 2;
-    if (character > open && character <= (close === -1 ? line.length : close)) {
-      return !line.slice(open, end).startsWith("{{/*") && !line.slice(open, end).startsWith("{{- /*");
-    }
-    from = end;
-  }
+  const span = actionSpans(line).find((s) => character >= s.open && character < s.end);
+  if (!span) return false;
+
+  const text = line.slice(span.open, span.end);
+  if (text.startsWith("{{/*") || text.startsWith("{{- /*")) return false;
+
+  const afterOpen = span.open + (text.startsWith("{{-") ? 3 : 2);
+  const beforeClose = span.terminated ? span.end - (text.endsWith("-}}") ? 3 : 2) : span.end;
+  return character >= afterOpen && character <= beforeClose;
 }
 
 /** @typedef {{label: string, detail: string, documentation: string, snippet?: string}} Suggestion */
 
+/** @type {Suggestion[] | undefined} */
+let cached;
+
 /**
- * @param {string} line
- * @param {number} character
- * @returns {Suggestion[]} empty outside an action — the YAML side belongs to the editor
+ * The suggestion list never varies by position — only by whether we are inside
+ * an action at all. Built once: the editor asks on every keystroke.
+ * @returns {Suggestion[]}
  */
-function completionsFor(line, character) {
-  if (typeof line !== "string" || character < 0 || !insideAction(line, character)) return [];
+function staticSuggestions() {
+  if (cached) return cached;
 
   /** @type {Suggestion[]} */
   const suggestions = SNIPPETS.map((s) => ({
@@ -61,7 +65,20 @@ function completionsFor(line, character) {
     suggestions.push({ label: name, detail: "template keyword", documentation: doc.summary });
   }
 
-  return suggestions;
+  cached = suggestions;
+  return cached;
+}
+
+/**
+ * @param {string} line
+ * @param {number} character
+ * @returns {Suggestion[]} empty outside an action — the YAML side belongs to the editor
+ */
+function completionsFor(line, character) {
+  if (typeof line !== "string" || character < 0 || !insideAction(line, character)) return [];
+
+  /** @type {Suggestion[]} */
+  return staticSuggestions();
 }
 
 module.exports = { completionsFor };

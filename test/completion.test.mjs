@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { completionsFor } from "../src/completion.js";
+import { resolveAt } from "../src/cursor.js";
 
 const inside = (line, needle) => completionsFor(line, line.indexOf(needle) + 1);
 
@@ -55,4 +56,18 @@ test("сниппеты парных конструкций приходят с �
 test("незакрытая вставка предложения даёт", () => {
   // Файл набирают: курсор внутри ещё не закрытой вставки — обычный случай.
   assert.ok(completionsFor("key: {{ req", 9).length > 0);
+});
+
+test("границы вставки согласованы между разбором и автодополнением", () => {
+  // Две реализации «внутри вставки» однажды разошлись на колонках
+  // ограничителей. Теперь источник один, и это утверждение его удерживает:
+  // предложения появляются только там, где разбор видит вставку.
+  const line = 'key: {{ readFile "x" }} tail';
+  for (let i = 0; i < line.length; i++) {
+    const inAction = resolveAt(line, i) !== null;
+    const hasSuggestions = completionsFor(line, i).length > 0;
+    if (hasSuggestions) {
+      assert.ok(inAction, `позиция ${i}: предложения есть, а разбор вставки не видит`);
+    }
+  }
 });

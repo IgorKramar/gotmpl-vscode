@@ -20,7 +20,13 @@ const KEYWORDS = new Set([
   "break", "continue",
 ]);
 
-/** Spans of every `{{ … }}` action on the line, closed or not. */
+/**
+ * Spans of every `{{ … }}` action on the line, closed or not.
+ *
+ * Exported because "is this column inside an action" is one question with one
+ * answer: a second implementation drifted on the delimiter columns before this
+ * became shared.
+ */
 function actionSpans(line) {
   const spans = [];
   let from = 0;
@@ -104,4 +110,4 @@ function resolveAt(line, character) {
   return { kind, name: token.text, start: token.start, end: token.end };
 }
 
-module.exports = { resolveAt, HELMFILE, GO_BUILTIN, KEYWORDS };
+module.exports = { resolveAt, actionSpans, HELMFILE, GO_BUILTIN, KEYWORDS };
