@@ -1,0 +1,72 @@
+# A demo helmfile showing what the extension highlights.
+# Nothing here points at a real registry or cluster — it exists to be looked at.
+
+repositories:
+  - name: charts
+    url: https://charts.example.com/stable
+    username: {{ requiredEnv "CHART_REGISTRY_USER" }}
+    password: {{ requiredEnv "CHART_REGISTRY_PASSWORD" }}
+
+environments:
+  default:
+    values:
+      - replicas: 1
+        logLevel: debug
+  production:
+    values:
+      - replicas: 3
+        logLevel: info
+
+---
+
+helmDefaults:
+  wait: false
+  timeout: 600
+  atomic: false
+
+releases:
+  - name: web
+    namespace: {{ .Environment.Name }}
+    chart: charts/service
+    version: 2.4.1
+    values:
+      - image: {{ requiredEnv "IMAGE_NAME" }}:{{ requiredEnv "IMAGE_TAG" }}
+
+        # A construct picks the size by environment.
+        {{- if eq .Environment.Name "production" }}
+        replicaCount: {{ .Values.replicas }}
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+        {{- else }}
+        replicaCount: 1
+        {{- end }}
+
+        # An action inside a quoted string is still an action.
+        ingressHost: "web.{{ .Environment.Name }}.example.com"
+
+        # A file pulled in and indented by the template, not by YAML.
+        extraConfig: |
+{{ readFile "examples/extra.conf" | indent 10 }}
+
+        # Iteration, with the value piped through a sprig function.
+        {{- range $name, $value := .Values.env }}
+        - name: {{ $name }}
+          value: {{ $value | quote }}
+        {{- end }}
+
+        # A scoped block, and a builtin comparison inside it.
+        {{- with .Values.probes }}
+        readinessProbe:
+          path: {{ .path | default "/healthz" }}
+          port: {{ printf "%d" .port }}
+        {{- end }}
+
+  {{/* A template comment. Its contents stay inert, {{ braces }} and all. */}}
+
+  - name: worker
+    namespace: {{ .Environment.Name }}
+    chart: charts/worker
+    version: 1.0.0
+    installed: {{ eq .Environment.Name "production" }}

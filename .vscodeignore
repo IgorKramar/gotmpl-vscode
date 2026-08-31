@@ -8,3 +8,4 @@ eslint.config.mjs
 node_modules/**
 vendor/**
 images/*.svg
+examples/**

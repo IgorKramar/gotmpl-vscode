@@ -115,10 +115,25 @@ test("незакрытая вставка вне строки", () => {
   assert.deepEqual(messages('key: {{ requiredEnv "X"'), [MESSAGES.unclosedAction]);
 });
 
+test("проза с {{ внутри строки молчит, даже когда следом идёт слово", () => {
+  // Регрессия: признак принимал любой идентификатор со строчной буквы, из-за
+  // чего английская проза становилась шаблоном — «write {{ to open an action»
+  // подчёркивалось. Имя должно быть тем, которое справочник действительно знает.
+  for (const line of [
+    'note: "write {{ to open an action"',
+    'desc: "используйте {{ для вставки"',
+    'desc: "скобки {{ и }} парные"',
+    'hint: "the {{ marker starts a template"',
+  ]) {
+    assert.deepEqual(analyze(line), [], line);
+  }
+});
+
 test("незакрытая вставка внутри строки находится, когда похожа на шаблон", () => {
   // Цена KTD13 с другой стороны: настоящая ошибка внутри строки не теряется.
   assert.deepEqual(messages('desc: "оборвана {{ requiredEnv "'), [MESSAGES.unclosedAction]);
   assert.deepEqual(messages('desc: "оборвана {{ if .x"'), [MESSAGES.unclosedAction]);
+  assert.deepEqual(messages('desc: "оборвана {{ quote"'), [MESSAGES.unclosedAction]);
 });
 
 test("все конструкции закрыты — молчит", () => {

@@ -1,0 +1,24 @@
+# Deliberately broken, to show every kind of report the extension makes.
+# The last line is prose and stays silent — that is the point of it.
+
+releases:
+  - name: web
+    values:
+      # 1. A closing tag with nothing open.
+      {{- end }}
+
+      # 2. `else` with neither `if` nor `with` around it.
+      {{- range .Values.items }}
+      {{- else }}
+      {{- end }}
+
+      # 3. An action left unterminated.
+      host: {{ requiredEnv "SERVICE_HOST"
+
+      # 4. Opened and never closed. The report points here, at the construct
+      #    actually left open — not at the last line of the file.
+      {{- if eq .Environment.Name "production" }}
+      replicaCount: 3
+
+      # Prose, not a template. Silent: `to` is not a name the reference knows.
+      note: "write {{ to open an action"
