@@ -159,12 +159,6 @@
     "category": "math",
     "description": "Returns the greatest float value greater than or equal to input value `ceil 123.001` will return `124.0`"
   },
-  "Cert": {
-    "name": "Cert",
-    "source": "sprig",
-    "category": "crypto",
-    "description": "A PEM-encoded certificate"
-  },
   "chunk": {
     "name": "chunk",
     "source": "sprig",
@@ -660,12 +654,6 @@
     "description": "Convert string from camelCase to kebab-case.",
     "example": "kebabcase \"FirstName\"",
     "usage": "kebabcase \"FirstName\""
-  },
-  "Key": {
-    "name": "Key",
-    "source": "sprig",
-    "category": "crypto",
-    "description": "A PEM-encoded private key"
   },
   "keys": {
     "name": "keys",
