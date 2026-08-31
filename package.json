@@ -2,7 +2,7 @@
   "name": "gotmpl-yaml-highlighter",
   "displayName": "Gotmpl YAML Highlighter",
   "description": "Syntax highlighting for *.yaml.gotmpl files: keeps YAML, adds Go template on top",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "publisher": "IgorKramar",
   "license": "MIT",
   "author": "Igor Kramar",
