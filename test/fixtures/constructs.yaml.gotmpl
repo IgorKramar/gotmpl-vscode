@@ -1,0 +1,30 @@
+# Every construct R2 names, at least once.
+repositories:
+  - name: irreg
+    username: {{ requiredEnv "RegistryUser" }}
+
+releases:
+  - name: app
+    version: 1.6.0
+    values:
+      - image: {{ requiredEnv "IMAGE_NAME" }}:{{ requiredEnv "IMAGE_TAG" }}
+        {{- if eq .Environment.Name "prod" }}
+        replicas: 2
+        {{- else if .Values.staging }}
+        replicas: 1
+        {{- else }}
+        replicas: 1
+        {{- end }}
+        debug: {{ .Values.debug | default false }}
+        retries: {{ 3 }}
+        empty: {{ nil }}
+        config: |
+          {{ readFile "nats.conf" | indent 10 }}
+        {{ range $key, $value := .Values.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+        {{ end }}
+        {{ with .Values.extra }}
+        extra: {{ . }}
+        {{ end }}
+        {{/* a template comment containing {{ and }} that must stay inert */}}

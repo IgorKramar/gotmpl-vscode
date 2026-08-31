@@ -1,0 +1,14 @@
+# A YAML comment mentioning {{ end }} which must stay inert.
+quoted: "prefix {{ requiredEnv "HOST" }} suffix"
+single: 'literal {{ not a template }} here'
+literal_block: |
+  raw {{ requiredEnv "PORT" }} line
+  second line
+folded_block: >
+  folded {{ .Values.name }} text
+nested:
+  {{- range .Values.items }}
+  {{- if .enabled }}
+  - {{ .name | quote }}
+  {{- end }}
+  {{- end }}
