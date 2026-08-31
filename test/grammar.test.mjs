@@ -186,3 +186,30 @@ test("тот же текст в .yaml.gotmpl области получает —
     `грамматика должна работать на нашем scope: ${scopes.join(" ")}`,
   );
 });
+
+// --- U10: the function lists come from the reference, not from memory ------
+
+test("функции helmfile, добавленные по справочнику, опознаются", async () => {
+  for (const name of ["fetchSecretValue", "include"]) {
+    const scopes = await gotmplScopesAt("constructs.yaml.gotmpl", name);
+    assert.ok(has(scopes, "support.function.gotmpl"), `${name}: ${scopes.join(" ")}`);
+  }
+});
+
+test("встроенные функции Go несут собственную область", async () => {
+  for (const name of ["eq", "printf"]) {
+    const scopes = await gotmplScopesAt("constructs.yaml.gotmpl", name);
+    assert.ok(has(scopes, "support.function.builtin.gotmpl"), `${name}: ${scopes.join(" ")}`);
+  }
+});
+
+test("три категории функций различимы между собой", async () => {
+  const [helmfile, builtin, sprig] = await Promise.all([
+    gotmplScopesAt("constructs.yaml.gotmpl", "requiredEnv"),
+    gotmplScopesAt("constructs.yaml.gotmpl", "printf"),
+    gotmplScopesAt("constructs.yaml.gotmpl", "indent"),
+  ]);
+  const pick = (scopes) => scopes.find((s) => s.includes("function"));
+  assert.equal(new Set([pick(helmfile), pick(builtin), pick(sprig)]).size, 3,
+    `области совпали: ${pick(helmfile)} / ${pick(builtin)} / ${pick(sprig)}`);
+});
