@@ -37,8 +37,10 @@ async function getOnigLib() {
   return onigLib;
 }
 
+let registry;
 export async function makeRegistry() {
-  return new Registry({
+  if (registry) return registry;
+  registry = new Registry({
     onigLib: await getOnigLib(),
     loadGrammar: async (scopeName) => {
       const path = GRAMMARS[scopeName];
@@ -51,14 +53,23 @@ export async function makeRegistry() {
     // it would confirm this wiring instead of the editor's behavior.
     getInjections: () => INJECTIONS,
   });
+  return registry;
+}
+
+const grammars = new Map();
+async function grammarFor(scopeName) {
+  if (!grammars.has(scopeName)) {
+    const registry = await makeRegistry();
+    const grammar = await registry.loadGrammar(scopeName);
+    if (!grammar) throw new Error(`grammar not found: ${scopeName}`);
+    grammars.set(scopeName, grammar);
+  }
+  return grammars.get(scopeName);
 }
 
 /** Tokenize `text` with `scopeName`, returning one array of tokens per line. */
 export async function tokenize(text, scopeName = "source.yaml.gotmpl") {
-  const registry = await makeRegistry();
-  const grammar = await registry.loadGrammar(scopeName);
-  if (!grammar) throw new Error(`grammar not found: ${scopeName}`);
-
+  const grammar = await grammarFor(scopeName);
   const lines = text.split(/\r?\n/);
   const result = [];
   let ruleStack = INITIAL;
@@ -84,4 +95,19 @@ export function scopesOf(lines, source, needle) {
     if (col !== -1) return scopesAt(lines, i, col);
   }
   throw new Error(`not found in source: ${needle}`);
+}
+
+/**
+ * Scopes at `needle` on the first line satisfying `lineMatches`.
+ *
+ * Most assertions here need a specific occurrence, not the first one in the
+ * file — the same construct appears on several lines of a fixture.
+ */
+export function scopesOnLine(lines, source, lineMatches, needle) {
+  const rows = source.split(/\r?\n/);
+  const row = rows.findIndex(lineMatches);
+  if (row === -1) throw new Error(`no line matched for: ${needle}`);
+  const col = rows[row].indexOf(needle);
+  if (col === -1) throw new Error(`"${needle}" not on the matched line: ${rows[row]}`);
+  return scopesAt(lines, row, col);
 }
