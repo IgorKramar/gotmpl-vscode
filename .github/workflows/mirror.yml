@@ -1,0 +1,31 @@
+# Mirrors this repository to the internal GitLab instance.
+# The full target URL, including credentials, lives in the GITLAB_MIRROR_URL secret.
+# Nothing here is specific to that host, so the workflow is safe to keep public.
+name: mirror
+
+on:
+  push:
+    branches: ['**']
+    tags: ['**']
+  delete:
+  workflow_dispatch:
+
+# A stale mirror is worse than no mirror, so pushes are serialized rather than
+# cancelled: every commit has to reach the other side, in order.
+concurrency:
+  group: mirror
+  cancel-in-progress: false
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      # A bare mirror clone rather than actions/checkout: it is the only form
+      # that carries every branch and tag without a second fetch, and it lets
+      # the refspec below exclude GitHub's own refs/pull/* bookkeeping, which
+      # is meaningless on the far side.
+      - run: git clone --bare --mirror "https://github.com/${{ github.repository }}.git" repo.git
+
+      - run: git -C repo.git push --prune "$MIRROR_URL" '+refs/heads/*:refs/heads/*' '+refs/tags/*:refs/tags/*'
+        env:
+          MIRROR_URL: ${{ secrets.GITLAB_MIRROR_URL }}
