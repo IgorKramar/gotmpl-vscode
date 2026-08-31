@@ -28,28 +28,44 @@ function looksLikeTemplate(rest) {
   return KEYWORDS.has(word) || HELMFILE.has(word) || GO_BUILTIN.has(word) || /^[a-z]/.test(word);
 }
 
-/** Column ranges of quoted YAML strings on a line, outside comments. */
-function quotedRanges(line) {
-  const ranges = [];
+/**
+ * Scans one line once for both things that depend on quoting: the ranges
+ * covered by quoted strings, and where a YAML comment starts.
+ *
+ * One scanner, not two. Both answers need the same state — which quote is
+ * open — and two independent implementations of "am I inside a string" is
+ * exactly the shape that drifted apart elsewhere in this extension.
+ *
+ * @param {string} line
+ * @returns {{quoted: {start: number, end: number}[], comment: number}}
+ */
+function scanLine(line) {
+  /** @type {{start: number, end: number}[]} */
+  const quoted = [];
   let quote = null;
   let start = 0;
+  let comment = -1;
+
   for (let i = 0; i < line.length; i++) {
     const ch = line[i];
     if (quote) {
       if (ch === "\\") i++;
       else if (ch === quote) {
-        ranges.push({ start, end: i + 1 });
+        quoted.push({ start, end: i + 1 });
         quote = null;
       }
     } else if (ch === '"' || ch === "'") {
       quote = ch;
       start = i;
     } else if (ch === "#" && (i === 0 || /\s/.test(line[i - 1]))) {
-      break; // a YAML comment ends the line as far as strings go
+      comment = i;
+      break;
     }
   }
-  if (quote) ranges.push({ start, end: line.length });
-  return ranges;
+  // An unterminated quote owns the rest of the line: the file is being typed.
+  if (quote) quoted.push({ start, end: line.length });
+
+  return { quoted, comment };
 }
 
 /**
@@ -78,20 +94,6 @@ function templateCommentRanges(text) {
   return ranges;
 }
 
-/** Where a YAML comment starts on this line, or -1. */
-function commentStart(line) {
-  let quote = null;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (quote) {
-      if (ch === "\\") i++;
-      else if (ch === quote) quote = null;
-    } else if (ch === '"' || ch === "'") quote = ch;
-    else if (ch === "#" && (i === 0 || /\s/.test(line[i - 1]))) return i;
-  }
-  return -1;
-}
-
 const MESSAGES = {
   unclosedAction: "Unclosed action: `{{` has no matching `}}`.",
   unclosedConstruct: (word) => `Unclosed \`${word}\`: no matching \`{{ end }}\`.`,
@@ -115,8 +117,7 @@ function analyze(text) {
   for (const [lineNo, line] of lines.entries()) {
     const offsetOfLine = lineOffset;
     lineOffset += line.length + 1;
-    const comment = commentStart(line);
-    const quoted = quotedRanges(line);
+    const { quoted, comment } = scanLine(line);
 
     for (const span of actionSpans(line)) {
       // A YAML comment swallows everything after it, template syntax included.
