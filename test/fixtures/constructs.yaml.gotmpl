@@ -28,3 +28,7 @@ releases:
         extra: {{ . }}
         {{ end }}
         {{/* a template comment containing {{ and }} that must stay inert */}}
+        secret: {{ fetchSecretValue "ref+vault://path" }}
+        included: {{ include "partial.yaml" . }}
+        compared: {{ if eq .A .B }}same{{ end }}
+        formatted: {{ printf "%s-%d" .Name .Port }}

@@ -1,0 +1,1604 @@
+{
+  "abbrev": {
+    "name": "abbrev",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Truncate a string with ellipses (`...`) Parameters: - max length - the string",
+    "example": "abbrev 5 \"hello world\"",
+    "usage": "abbrev 5 \"hello world\""
+  },
+  "abbrevboth": {
+    "name": "abbrevboth",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Abbreviate both sides:",
+    "example": "abbrevboth 5 10 \"1234 5678 9123\"",
+    "usage": "abbrevboth 5 10 \"1234 5678 9123\""
+  },
+  "add": {
+    "name": "add",
+    "source": "sprig",
+    "category": "math",
+    "description": "Sum numbers with `add`. Accepts two or more inputs.",
+    "example": "add 1 2 3",
+    "usage": "add 1 2 3"
+  },
+  "add1": {
+    "name": "add1",
+    "source": "sprig",
+    "category": "math",
+    "description": "To increment by 1, use `add1`"
+  },
+  "add1f": {
+    "name": "add1f",
+    "source": "sprig",
+    "category": "mathf",
+    "description": "To increment by 1, use `add1f`"
+  },
+  "addf": {
+    "name": "addf",
+    "source": "sprig",
+    "category": "mathf",
+    "description": "Sum numbers with `addf` This will return `5.5`:",
+    "example": "addf 1.5 2 2",
+    "usage": "addf 1.5 2 2"
+  },
+  "adler32sum": {
+    "name": "adler32sum",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `adler32sum` function receives a string, and computes its Adler-32 checksum.",
+    "example": "adler32sum \"Hello world!\"",
+    "usage": "adler32sum \"Hello world!\""
+  },
+  "ago": {
+    "name": "ago",
+    "source": "sprig",
+    "category": "date",
+    "description": "The `ago` function returns duration from time.Now in seconds resolution.",
+    "example": "ago .CreatedAt\"",
+    "usage": "ago .CreatedAt\""
+  },
+  "all": {
+    "name": "all",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `all` function takes a list of values and returns true if all values are non-empty.",
+    "example": "all 0 1 2",
+    "usage": "all 0 1 2"
+  },
+  "any": {
+    "name": "any",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `any` function takes a list of values and returns true if any value is non-empty.",
+    "example": "any 0 1 2",
+    "usage": "any 0 1 2"
+  },
+  "append": {
+    "name": "append",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Append a new item to an existing list, creating a new list.",
+    "example": "$new = append $myList 6",
+    "usage": "$new = append $myList 6"
+  },
+  "atoi": {
+    "name": "atoi",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert a string to an integer."
+  },
+  "b32dec": {
+    "name": "b32dec",
+    "source": "sprig",
+    "category": "encoding",
+    "description": "Encode or decode with Base32"
+  },
+  "b32enc": {
+    "name": "b32enc",
+    "source": "sprig",
+    "category": "encoding",
+    "description": "Encode or decode with Base32"
+  },
+  "b64dec": {
+    "name": "b64dec",
+    "source": "sprig",
+    "category": "encoding",
+    "description": "Encode or decode with Base64"
+  },
+  "b64enc": {
+    "name": "b64enc",
+    "source": "sprig",
+    "category": "encoding",
+    "description": "Encode or decode with Base64"
+  },
+  "base": {
+    "name": "base",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the last element of a path.",
+    "example": "base \"foo/bar/baz\"",
+    "usage": "base \"foo/bar/baz\""
+  },
+  "bcrypt": {
+    "name": "bcrypt",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `bcrypt` function receives a string, and generates its `bcrypt` hash.",
+    "example": "bcrypt \"myPassword\"",
+    "usage": "bcrypt \"myPassword\""
+  },
+  "buildCustomCert": {
+    "name": "buildCustomCert",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `buildCustomCert` function allows customizing the certificate. It takes the following string parameters: - A base64 encoded PEM format certificate - A base64 encoded PEM format private key It returns a certificate object with the following attributes: - `Cert`: A PEM-encoded certificate - `Key`: A PEM-encoded private key Example:",
+    "example": "$ca := buildCustomCert \"base64-encoded-ca-crt\" \"base64-encoded-ca-key\"",
+    "usage": "$ca := buildCustomCert \"base64-encoded-ca-crt\" \"base64-encoded-ca-key\""
+  },
+  "camelcase": {
+    "name": "camelcase",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Convert string from snake_case to CamelCase",
+    "example": "camelcase \"http_server\"",
+    "usage": "camelcase \"http_server\""
+  },
+  "cat": {
+    "name": "cat",
+    "source": "sprig",
+    "category": "strings",
+    "description": "The `cat` function concatenates multiple strings together into one, separating them with spaces:",
+    "example": "cat \"hello\" \"beautiful\" \"world\"",
+    "usage": "cat \"hello\" \"beautiful\" \"world\""
+  },
+  "ceil": {
+    "name": "ceil",
+    "source": "sprig",
+    "category": "math",
+    "description": "Returns the greatest float value greater than or equal to input value `ceil 123.001` will return `124.0`"
+  },
+  "Cert": {
+    "name": "Cert",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "A PEM-encoded certificate"
+  },
+  "chunk": {
+    "name": "chunk",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To split a list into chunks of given size, use `chunk size list`. This is useful for pagination.",
+    "example": "chunk 3 (list 1 2 3 4 5 6 7 8)",
+    "usage": "chunk 3 (list 1 2 3 4 5 6 7 8)"
+  },
+  "clean": {
+    "name": "clean",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Clean up a path.",
+    "example": "clean \"foo/bar/../baz\"",
+    "usage": "clean \"foo/bar/../baz\""
+  },
+  "coalesce": {
+    "name": "coalesce",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `coalesce` function takes a list of values and returns the first non-empty one.",
+    "example": "coalesce 0 1 2",
+    "usage": "coalesce 0 1 2"
+  },
+  "compact": {
+    "name": "compact",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Accepts a list and removes entries with empty values.",
+    "example": "$list := list 1 \"a\" \"foo\" \"\"\n$copy := compact $list"
+  },
+  "concat": {
+    "name": "concat",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Concatenate arbitrary number of lists into one.",
+    "example": "concat $myList ( list 6 7 ) ( list 8 )",
+    "usage": "concat $myList ( list 6 7 ) ( list 8 )"
+  },
+  "contains": {
+    "name": "contains",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Test to see if one string is contained inside of another:",
+    "example": "contains \"cat\" \"catch\"",
+    "usage": "contains \"cat\" \"catch\""
+  },
+  "date": {
+    "name": "date",
+    "source": "sprig",
+    "category": "date",
+    "description": "The `date` function formats a date. Format the date to YEAR-MONTH-DAY:",
+    "example": "now | date \"2006-01-02\"",
+    "usage": "now | date \"2006-01-02\""
+  },
+  "dateInZone": {
+    "name": "dateInZone",
+    "source": "sprig",
+    "category": "date",
+    "description": "Same as `date`, but with a timezone.",
+    "example": "dateInZone \"2006-01-02\" (now) \"UTC\"",
+    "usage": "dateInZone \"2006-01-02\" (now) \"UTC\""
+  },
+  "dateModify": {
+    "name": "dateModify",
+    "source": "sprig",
+    "category": "date",
+    "description": "The `dateModify` takes a modification and a date and returns the timestamp. Subtract an hour and thirty minutes from the current time:",
+    "example": "now | date_modify \"-1.5h\""
+  },
+  "decryptAES": {
+    "name": "decryptAES",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `decryptAES` function receives a base64 string encoded by the AES-256 CBC algorithm and returns the decoded text.",
+    "example": "\"30tEfhuJSVRhpG97XCuWgz2okj7L8vQ1s6V9zVUPeDQ=\" | decryptAES \"secretkey\"",
+    "usage": "\"30tEfhuJSVRhpG97XCuWgz2okj7L8vQ1s6V9zVUPeDQ=\" | decryptAES \"secretkey\""
+  },
+  "deepCopy": {
+    "name": "deepCopy",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `deepCopy` and `mustDeepCopy` functions takes a value and makes a deep copy of the value. This includes dicts and other structures. `deepCopy` panics when there is a problem while `mustDeepCopy` returns an error to the template system when there is an error.",
+    "example": "dict \"a\" 1 \"b\" 2 | deepCopy",
+    "usage": "dict \"a\" 1 \"b\" 2 | deepCopy"
+  },
+  "deepEqual": {
+    "name": "deepEqual",
+    "source": "sprig",
+    "category": "reflection",
+    "description": "`deepEqual` returns true if two values are [\"deeply equal\"](https://golang.org/pkg/reflect/#DeepEqual) Works for non-primitive types as well (compared to the built-in `eq`).",
+    "example": "deepEqual (list 1 2 3) (list 1 2 3)",
+    "usage": "deepEqual (list 1 2 3) (list 1 2 3)"
+  },
+  "default": {
+    "name": "default",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "To set a simple default value, use `default`:",
+    "example": "default \"foo\" .Bar",
+    "usage": "default \"foo\" .Bar"
+  },
+  "derivePassword": {
+    "name": "derivePassword",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `derivePassword` function can be used to derive a specific password based on some shared \"master password\" constraints. The algorithm for this is [well specified](https://spectre.app/spectre-algorithm.pdf).",
+    "example": "derivePassword 1 \"long\" \"password\" \"user\" \"example.com\"",
+    "usage": "derivePassword 1 \"long\" \"password\" \"user\" \"example.com\""
+  },
+  "dict": {
+    "name": "dict",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "Creating dictionaries is done by calling the `dict` function and passing it a list of pairs. The following creates a dictionary with three items:",
+    "example": "$myDict := dict \"name1\" \"value1\" \"name2\" \"value2\" \"name3\" \"value 3\"",
+    "usage": "$myDict := dict \"name1\" \"value1\" \"name2\" \"value2\" \"name3\" \"value 3\""
+  },
+  "dig": {
+    "name": "dig",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `dig` function traverses a nested set of dicts, selecting keys from a list of values. It returns a default value if any of the keys are not found at the associated dict.",
+    "example": "dig \"user\" \"role\" \"humanName\" \"guest\" $dict",
+    "usage": "dig \"user\" \"role\" \"humanName\" \"guest\" $dict"
+  },
+  "dir": {
+    "name": "dir",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the directory, stripping the last part of the path. So `dir \"foo/bar/baz\"` returns `foo/bar`."
+  },
+  "div": {
+    "name": "div",
+    "source": "sprig",
+    "category": "math",
+    "description": "Perform integer division with `div`"
+  },
+  "divf": {
+    "name": "divf",
+    "source": "sprig",
+    "category": "mathf",
+    "description": "Perform integer division with `divf` This is equivalent to `10 / 2 / 4` and will return `1.25`:",
+    "example": "divf 10 2 4",
+    "usage": "divf 10 2 4"
+  },
+  "dsa": {
+    "name": "dsa",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "Generate a DSA key (L2048N256)"
+  },
+  "duration": {
+    "name": "duration",
+    "source": "sprig",
+    "category": "date",
+    "description": "Formats a given amount of seconds as a `time.Duration`. This returns 1m35s",
+    "example": "duration \"95\"",
+    "usage": "duration \"95\""
+  },
+  "durationRound": {
+    "name": "durationRound",
+    "source": "sprig",
+    "category": "date",
+    "description": "Rounds a given duration to the most significant unit. Strings and `time.Duration` gets parsed as a duration, while a `time.Time` is calculated as the duration since. This return 2h",
+    "example": "durationRound \"2h10m5s\"",
+    "usage": "durationRound \"2h10m5s\""
+  },
+  "ecdsa": {
+    "name": "ecdsa",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "Generate an elliptic curve DSA key (P256)"
+  },
+  "ed25519": {
+    "name": "ed25519",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "Generate an Ed25519 key"
+  },
+  "empty": {
+    "name": "empty",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `empty` function returns `true` if the given value is considered empty, and `false` otherwise. The empty values are listed in the `default` section.",
+    "example": "empty .Foo",
+    "usage": "empty .Foo"
+  },
+  "encryptAES": {
+    "name": "encryptAES",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `encryptAES` function encrypts text with AES-256 CBC and returns a base64 encoded string.",
+    "example": "encryptAES \"secretkey\" \"plaintext\"",
+    "usage": "encryptAES \"secretkey\" \"plaintext\""
+  },
+  "env": {
+    "name": "env",
+    "source": "helmfile",
+    "description": "The `env` function allows you to declare a particular environment variable as an optional for template rendering. If the environment variable is unset or empty, the template rendering will continue with an empty string as a value.",
+    "example": "{{ $envValue := env \"envName\" }}",
+    "usage": "{{ $envValue := env \"envName\" }}",
+    "overrides": "sprig"
+  },
+  "envExec": {
+    "name": "envExec",
+    "source": "helmfile",
+    "description": "The `envExec` function allows you to run a command with environment variables declared on-the-fly in addition to existing environment variables, returning the stdout of the command. When the command fails, the template rendering will fail with an error message.",
+    "example": "{{ $cmdOutpot := envExec (dict \"envKey\" \"envValue\") \"./mycmd\" (list \"arg1\" \"arg2\" \"--flag1\") }}",
+    "usage": "{{ $cmdOutpot := envExec (dict \"envKey\" \"envValue\") \"./mycmd\" (list \"arg1\" \"arg2\" \"--flag1\") }}"
+  },
+  "exec": {
+    "name": "exec",
+    "source": "helmfile",
+    "description": "The `exec` function allows you to run a command, returning the stdout of the command. When the command fails, the template rendering will fail with an error message.",
+    "example": "{{ $cmdOutpot := exec \"./mycmd\" (list \"arg1\" \"arg2\" \"--flag1\") }}",
+    "usage": "{{ $cmdOutpot := exec \"./mycmd\" (list \"arg1\" \"arg2\" \"--flag1\") }}"
+  },
+  "expandenv": {
+    "name": "expandenv",
+    "source": "sprig",
+    "category": "os",
+    "description": "To substitute environment variables in a string, use `expandenv`:",
+    "example": "expandenv \"Your path is set to $PATH\"",
+    "usage": "expandenv \"Your path is set to $PATH\""
+  },
+  "expandSecretRefs": {
+    "name": "expandSecretRefs",
+    "source": "helmfile",
+    "description": "The `expandSecretRefs` function takes an object as the argument and expands every [vals](https://github.com/helmfile/vals) secret reference URL embedded in the object's values. See [\"Remote Secrets\" page in our documentation](./remote-secrets.md) for more information.",
+    "example": "{{ $expandSecretRefs :=  $value | expandSecretRefs }}",
+    "usage": "{{ $expandSecretRefs :=  $value | expandSecretRefs }}"
+  },
+  "ext": {
+    "name": "ext",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the file extension.",
+    "example": "ext \"foo.bar\"",
+    "usage": "ext \"foo.bar\""
+  },
+  "fail": {
+    "name": "fail",
+    "source": "sprig",
+    "category": "flow_control",
+    "description": "Unconditionally returns an empty `string` and an `error` with the specified text. This is useful in scenarios where other conditionals have determined that template rendering should fail.",
+    "example": "fail \"Please accept the end user license agreement\"",
+    "usage": "fail \"Please accept the end user license agreement\""
+  },
+  "fetchSecretValue": {
+    "name": "fetchSecretValue",
+    "source": "helmfile",
+    "description": "The `fetchSecretValue` function parses the argument as a [vals](https://github.com/helmfile/vals) ref URL, retrieves and returns the remote secret value referred by the URL. In case it failed to access the remote secret backend for whatever reason or the URL was invalid, the template rendering will fail with an error message.",
+    "example": "{{ $fetchSecretValue :=  fetchSecretValue \"secret/path\" }}",
+    "usage": "{{ $fetchSecretValue :=  fetchSecretValue \"secret/path\" }}"
+  },
+  "first": {
+    "name": "first",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To get the head item on a list, use `first`. `first $myList` returns `1` `first` panics if there is a problem while `mustFirst` returns an error to the template engine if there is a problem."
+  },
+  "float64": {
+    "name": "float64",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert to a `float64`."
+  },
+  "floor": {
+    "name": "floor",
+    "source": "sprig",
+    "category": "math",
+    "description": "Returns the greatest float value less than or equal to input value `floor 123.9999` will return `123.0`"
+  },
+  "fromJson": {
+    "name": "fromJson",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "`fromJson` decodes a JSON document into a structure. If the input cannot be decoded as JSON the function will return an empty string. `mustFromJson` will return an error in case the JSON is invalid.",
+    "example": "fromJson \"{\\\"foo\\\": 55}\"",
+    "usage": "fromJson \"{\\\"foo\\\": 55}\""
+  },
+  "fromYaml": {
+    "name": "fromYaml",
+    "source": "helmfile",
+    "description": "The `fromYaml` function allows you to convert a YAML string to a value. When has failed, the template rendering will fail with an error message.",
+    "example": "{{ $value :=  $yamlString | fromYaml }}",
+    "usage": "{{ $value :=  $yamlString | fromYaml }}"
+  },
+  "genCA": {
+    "name": "genCA",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `genCA` function generates a new, self-signed x509 certificate authority using a 2048-bit RSA private key. It takes the following parameters: - Subject's common name (cn) - Cert validity duration in days It returns an object with the following attributes: - `Cert`: A PEM-encoded certificate - `Key`: A PEM-encoded private key Example:",
+    "example": "$ca := genCA \"foo-ca\" 365",
+    "usage": "$ca := genCA \"foo-ca\" 365"
+  },
+  "genCAWithKey": {
+    "name": "genCAWithKey",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `genCAWithKey` function generates a new, self-signed x509 certificate authority using a given private key. It takes the following parameters: - Subject's common name (cn) - Cert validity duration in days - Private key (PEM-encoded); DSA keys are not supported It returns an object with the following attributes: - `Cert`: A PEM-encoded certificate - `Key`: A PEM-encoded private key Example:",
+    "example": "$ca := genCAWithKey \"foo-ca\" 365 (genPrivateKey \"rsa\")",
+    "usage": "$ca := genCAWithKey \"foo-ca\" 365 (genPrivateKey \"rsa\")"
+  },
+  "genPrivateKey": {
+    "name": "genPrivateKey",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `genPrivateKey` function generates a new private key encoded into a PEM block. It takes one of the values for its first param: - `ecdsa`: Generate an elliptic curve DSA key (P256) - `dsa`: Generate a DSA key (L2048N256) - `rsa`: Generate an RSA 4096 key - `ed25519`: Generate an Ed25519 key"
+  },
+  "genSelfSignedCert": {
+    "name": "genSelfSignedCert",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `genSelfSignedCert` function generates a new, self-signed x509 certificate using a 2048-bit RSA private key. It takes the following parameters: - Subject's common name (cn) - Optional list of IPs; may be nil - Optional list of alternate DNS names; may be nil - Cert validity duration in days It returns an object with the following attributes: - `Cert`: A PEM-encoded certificate - `Key`: A PEM-encoded private key Example:",
+    "example": "$cert := genSelfSignedCert \"foo.com\" (list \"10.0.0.1\" \"10.0.0.2\") (list \"bar.com\" \"bat.com\") 365",
+    "usage": "$cert := genSelfSignedCert \"foo.com\" (list \"10.0.0.1\" \"10.0.0.2\") (list \"bar.com\" \"bat.com\") 365"
+  },
+  "genSelfSignedCertWithKey": {
+    "name": "genSelfSignedCertWithKey",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `genSelfSignedCertWithKey` function generates a new, self-signed x509 certificate using a given private key. It takes the following parameters: - Subject's common name (cn) - Optional list of IPs; may be nil - Optional list of alternate DNS names; may be nil - Cert validity duration in days - Private key (PEM-encoded); DSA keys are not supported It returns an object with the following attributes: - `Cert`: A PEM-encoded certificate - `Key`: A PEM-encoded private key Example:",
+    "example": "$cert := genSelfSignedCertWithKey \"foo.com\" (list \"10.0.0.1\" \"10.0.0.2\") (list \"bar.com\" \"bat.com\") 365 (genPrivateKey \"ecdsa\")",
+    "usage": "$cert := genSelfSignedCertWithKey \"foo.com\" (list \"10.0.0.1\" \"10.0.0.2\") (list \"bar.com\" \"bat.com\") 365 (genPrivateKey \"ecdsa\")"
+  },
+  "genSignedCert": {
+    "name": "genSignedCert",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `genSignedCert` function generates a new, x509 certificate signed by the specified CA, using a 2048-bit RSA private key. It takes the following parameters: - Subject's common name (cn) - Optional list of IPs; may be nil - Optional list of alternate DNS names; may be nil - Cert validity duration in days - CA (see `genCA`) Example:",
+    "example": "$ca := genCA \"foo-ca\" 365\n$cert := genSignedCert \"foo.com\" (list \"10.0.0.1\" \"10.0.0.2\") (list \"bar.com\" \"bat.com\") 365 $ca"
+  },
+  "genSignedCertWithKey": {
+    "name": "genSignedCertWithKey",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `genSignedCertWithKey` function generates a new, x509 certificate signed by the specified CA, using a given private key. It takes the following parameters: - Subject's common name (cn) - Optional list of IPs; may be nil - Optional list of alternate DNS names; may be nil - Cert validity duration in days - CA (see `genCA`) - Private key (PEM-encoded); DSA keys are not supported Example:",
+    "example": "$ca := genCA \"foo-ca\" 365\n$cert := genSignedCert \"foo.com\" (list \"10.0.0.1\" \"10.0.0.2\") (list \"bar.com\" \"bat.com\") 365 $ca (genPrivateKey \"ed25519\")"
+  },
+  "get": {
+    "name": "get",
+    "source": "helmfile",
+    "description": "The `get` function allows you to get a value at a path. you can set a default value when the path is not found. When has failed, the template rendering will fail with an error message.",
+    "example": "{{ $Getvalue :=  $value | get \"path.key\" \"defaultValue\" }}",
+    "usage": "{{ $Getvalue :=  $value | get \"path.key\" \"defaultValue\" }}",
+    "overrides": "sprig"
+  },
+  "getHostByName": {
+    "name": "getHostByName",
+    "source": "sprig",
+    "category": "network",
+    "description": "The `getHostByName` receives a domain name and returns the ip address.",
+    "example": "getHostByName \"www.google.com\" would return the corresponding ip address of www.google.com",
+    "usage": "getHostByName \"www.google.com\" would return the corresponding ip address of www.google.com"
+  },
+  "getOrNil": {
+    "name": "getOrNil",
+    "source": "helmfile",
+    "description": "The `getOrNil` function allows you to get a value at a path. it will return nil when the value of path is not found. When has failed, the template rendering will fail with an error message.",
+    "example": "{{ $GetOrNlvalue :=  $value | getOrNil \"path.key\" }}",
+    "usage": "{{ $GetOrNlvalue :=  $value | getOrNil \"path.key\" }}"
+  },
+  "has": {
+    "name": "has",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Test to see if a list has a particular element.",
+    "example": "has 4 $myList",
+    "usage": "has 4 $myList"
+  },
+  "hasKey": {
+    "name": "hasKey",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `hasKey` function returns `true` if the given dict contains the given key.",
+    "example": "hasKey $myDict \"name1\"",
+    "usage": "hasKey $myDict \"name1\""
+  },
+  "hasPrefix": {
+    "name": "hasPrefix",
+    "source": "sprig",
+    "category": "strings",
+    "description": "The `hasPrefix` and `hasSuffix` functions test whether a string has a given prefix or suffix:",
+    "example": "hasPrefix \"cat\" \"catch\"",
+    "usage": "hasPrefix \"cat\" \"catch\""
+  },
+  "hasSuffix": {
+    "name": "hasSuffix",
+    "source": "sprig",
+    "category": "strings",
+    "description": "The `hasPrefix` and `hasSuffix` functions test whether a string has a given prefix or suffix:",
+    "example": "hasPrefix \"cat\" \"catch\""
+  },
+  "htmlDate": {
+    "name": "htmlDate",
+    "source": "sprig",
+    "category": "date",
+    "description": "The `htmlDate` function formats a date for inserting into an HTML date picker input field.",
+    "example": "now | htmlDate",
+    "usage": "now | htmlDate"
+  },
+  "htmlDateInZone": {
+    "name": "htmlDateInZone",
+    "source": "sprig",
+    "category": "date",
+    "description": "Same as htmlDate, but with a timezone.",
+    "example": "htmlDateInZone (now) \"UTC\"",
+    "usage": "htmlDateInZone (now) \"UTC\""
+  },
+  "htpasswd": {
+    "name": "htpasswd",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `htpasswd` function takes a `username`, a `password`, and a `hashAlgorithm` and generates a `bcrypt` (recommended) or a base64 encoded and prefixed `sha` hash of the password. `hashAlgorithm` is optional and defaults to `bcrypt`. The result can be used for basic authentication on an [Apache HTTP Server](https://httpd.apache.org/docs/2.4/misc/password_encryptions.html#basic).",
+    "example": "htpasswd \"myUser\" \"myPassword\" [\"bcrypt\"|\"sha\"]",
+    "usage": "htpasswd \"myUser\" \"myPassword\" [\"bcrypt\"|\"sha\"]"
+  },
+  "include": {
+    "name": "include",
+    "source": "helmfile",
+    "description": "The 'include' function allows including and rendering nested templates. The function returns the created template or an error if any occurred. It will load functions from `_*.tpl` files in the directory where the helmfile.yaml is located. For nested helmfile.yaml files, it will load `_*.tpl` files in the directory where each nested helmfile.yaml is located. example: [include](https://github.com/helmfile/helmfile/tree/main/test/integration/test-cases/include-template-func/input)",
+    "example": "{{ include \"my-template\" . }}",
+    "usage": "{{ include \"my-template\" . }}"
+  },
+  "indent": {
+    "name": "indent",
+    "source": "sprig",
+    "category": "strings",
+    "description": "The `indent` function indents every line in a given string to the specified indent width. This is useful when aligning multi-line strings:",
+    "example": "indent 4 $lots_of_text",
+    "usage": "indent 4 $lots_of_text"
+  },
+  "initial": {
+    "name": "initial",
+    "source": "sprig",
+    "category": "lists",
+    "description": "This compliments `last` by returning all _but_ the last element. `initial $myList` returns `[1 2 3 4]`. `initial` panics if there is a problem while `mustInitial` returns an error to the template engine if there is a problem."
+  },
+  "initials": {
+    "name": "initials",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Given multiple words, take the first letter of each word and combine.",
+    "example": "initials \"First Try\"",
+    "usage": "initials \"First Try\""
+  },
+  "int": {
+    "name": "int",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert to an `int` at the system's width."
+  },
+  "int64": {
+    "name": "int64",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert to an `int64`."
+  },
+  "isAbs": {
+    "name": "isAbs",
+    "source": "sprig",
+    "category": "paths",
+    "description": "To check whether a path is absolute, use `isAbs`."
+  },
+  "isDir": {
+    "name": "isDir",
+    "source": "helmfile",
+    "description": "The `isDir` function allows you to check if a directory exists. On failure, the template rendering will fail with an error message.",
+    "example": "{{ if isDir \"./mydirectory\" }}",
+    "usage": "{{ if isDir \"./mydirectory\" }}"
+  },
+  "isFile": {
+    "name": "isFile",
+    "source": "helmfile",
+    "description": "The `isFile` function allows you to check if a file exists. On failure, the template rendering will fail with an error message.",
+    "example": "{{ if isFile \"./myfile\" }}",
+    "usage": "{{ if isFile \"./myfile\" }}"
+  },
+  "join": {
+    "name": "join",
+    "source": "sprig",
+    "category": "string_slice",
+    "description": "Join a list of strings into a single string, with the given separator.",
+    "example": "list \"hello\" \"world\" | join \"_\"",
+    "usage": "list \"hello\" \"world\" | join \"_\""
+  },
+  "kebabcase": {
+    "name": "kebabcase",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Convert string from camelCase to kebab-case.",
+    "example": "kebabcase \"FirstName\"",
+    "usage": "kebabcase \"FirstName\""
+  },
+  "Key": {
+    "name": "Key",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "A PEM-encoded private key"
+  },
+  "keys": {
+    "name": "keys",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `keys` function will return a `list` of all of the keys in one or more `dict` types. Since a dictionary is _unordered_, the keys will not be in a predictable order. They can be sorted with `sortAlpha`.",
+    "example": "keys $myDict | sortAlpha",
+    "usage": "keys $myDict | sortAlpha"
+  },
+  "last": {
+    "name": "last",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To get the last item on a list, use `last`: `last $myList` returns `5`. This is roughly analogous to reversing a list and then calling `first`."
+  },
+  "lower": {
+    "name": "lower",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Convert the entire string to lowercase:",
+    "example": "lower \"HELLO\"",
+    "usage": "lower \"HELLO\""
+  },
+  "max": {
+    "name": "max",
+    "source": "sprig",
+    "category": "math",
+    "description": "Return the largest of a series of integers: This will return `3`:",
+    "example": "max 1 2 3",
+    "usage": "max 1 2 3"
+  },
+  "maxf": {
+    "name": "maxf",
+    "source": "sprig",
+    "category": "mathf",
+    "description": "Return the largest of a series of floats: This will return `3`:",
+    "example": "maxf 1 2.5 3",
+    "usage": "maxf 1 2.5 3"
+  },
+  "merge": {
+    "name": "merge",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "Merge two or more dictionaries into one, giving precedence to the dest dictionary:",
+    "example": "$newdict := merge $dest $source1 $source2",
+    "usage": "$newdict := merge $dest $source1 $source2"
+  },
+  "mergeOverwrite": {
+    "name": "mergeOverwrite",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "Merge two or more dictionaries into one, giving precedence from **right to left**, effectively overwriting values in the dest dictionary: Given:",
+    "example": "dst:\n  default: default\n  overwrite: me\n  key: true\n\nsrc:\n  overwrite: overwritten\n  key: false"
+  },
+  "min": {
+    "name": "min",
+    "source": "sprig",
+    "category": "math",
+    "description": "Return the smallest of a series of integers. `min 1 2 3` will return `1`"
+  },
+  "minf": {
+    "name": "minf",
+    "source": "sprig",
+    "category": "mathf",
+    "description": "Return the smallest of a series of floats. This will return `1.5`:",
+    "example": "minf 1.5 2 3",
+    "usage": "minf 1.5 2 3"
+  },
+  "mod": {
+    "name": "mod",
+    "source": "sprig",
+    "category": "math",
+    "description": "Modulo with `mod`"
+  },
+  "mul": {
+    "name": "mul",
+    "source": "sprig",
+    "category": "math",
+    "description": "Multiply with `mul`. Accepts two or more inputs.",
+    "example": "mul 1 2 3",
+    "usage": "mul 1 2 3"
+  },
+  "mulf": {
+    "name": "mulf",
+    "source": "sprig",
+    "category": "mathf",
+    "description": "Multiply with `mulf` This will return `6`:",
+    "example": "mulf 1.5 2 2",
+    "usage": "mulf 1.5 2 2"
+  },
+  "mustAppend": {
+    "name": "mustAppend",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Append a new item to an existing list, creating a new list.",
+    "example": "$new = append $myList 6"
+  },
+  "mustCompact": {
+    "name": "mustCompact",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Accepts a list and removes entries with empty values.",
+    "example": "$list := list 1 \"a\" \"foo\" \"\"\n$copy := compact $list"
+  },
+  "mustDateModify": {
+    "name": "mustDateModify",
+    "source": "sprig",
+    "category": "date",
+    "description": "The `dateModify` takes a modification and a date and returns the timestamp. Subtract an hour and thirty minutes from the current time:",
+    "example": "now | date_modify \"-1.5h\""
+  },
+  "mustDeepCopy": {
+    "name": "mustDeepCopy",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `deepCopy` and `mustDeepCopy` functions takes a value and makes a deep copy of the value. This includes dicts and other structures. `deepCopy` panics when there is a problem while `mustDeepCopy` returns an error to the template system when there is an error.",
+    "example": "dict \"a\" 1 \"b\" 2 | deepCopy"
+  },
+  "mustFirst": {
+    "name": "mustFirst",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To get the head item on a list, use `first`. `first $myList` returns `1` `first` panics if there is a problem while `mustFirst` returns an error to the template engine if there is a problem."
+  },
+  "mustFromJson": {
+    "name": "mustFromJson",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "`fromJson` decodes a JSON document into a structure. If the input cannot be decoded as JSON the function will return an empty string. `mustFromJson` will return an error in case the JSON is invalid.",
+    "example": "fromJson \"{\\\"foo\\\": 55}\""
+  },
+  "mustHas": {
+    "name": "mustHas",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Test to see if a list has a particular element.",
+    "example": "has 4 $myList"
+  },
+  "mustInitial": {
+    "name": "mustInitial",
+    "source": "sprig",
+    "category": "lists",
+    "description": "This compliments `last` by returning all _but_ the last element. `initial $myList` returns `[1 2 3 4]`. `initial` panics if there is a problem while `mustInitial` returns an error to the template engine if there is a problem."
+  },
+  "mustLast": {
+    "name": "mustLast",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To get the last item on a list, use `last`: `last $myList` returns `5`. This is roughly analogous to reversing a list and then calling `first`."
+  },
+  "mustMerge": {
+    "name": "mustMerge",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "Merge two or more dictionaries into one, giving precedence to the dest dictionary:",
+    "example": "$newdict := merge $dest $source1 $source2"
+  },
+  "mustMergeOverwrite": {
+    "name": "mustMergeOverwrite",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "Merge two or more dictionaries into one, giving precedence from **right to left**, effectively overwriting values in the dest dictionary: Given:",
+    "example": "dst:\n  default: default\n  overwrite: me\n  key: true\n\nsrc:\n  overwrite: overwritten\n  key: false"
+  },
+  "mustPrepend": {
+    "name": "mustPrepend",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Push an element onto the front of a list, creating a new list.",
+    "example": "prepend $myList 0"
+  },
+  "mustRegexFind": {
+    "name": "mustRegexFind",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Return the first (left most) match of the regular expression in the input string",
+    "example": "regexFind \"[a-zA-Z][1-9]\" \"abcd1234\""
+  },
+  "mustRegexFindAll": {
+    "name": "mustRegexFindAll",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns a slice of all matches of the regular expression in the input string. The last parameter n determines the number of substrings to return, where -1 means return all matches",
+    "example": "regexFindAll \"[2,4,6,8]\" \"123456789\" -1"
+  },
+  "mustRegexMatch": {
+    "name": "mustRegexMatch",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns true if the input string contains any match of the regular expression.",
+    "example": "regexMatch \"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}$\" \"test@acme.com\""
+  },
+  "mustRegexReplaceAll": {
+    "name": "mustRegexReplaceAll",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns a copy of the input string, replacing matches of the Regexp with the replacement string replacement. Inside string replacement, $ signs are interpreted as in Expand, so for instance $1 represents the text of the first submatch",
+    "example": "regexReplaceAll \"a(x*)b\" \"-ab-axxb-\" \"${1}W\""
+  },
+  "mustRegexReplaceAllLiteral": {
+    "name": "mustRegexReplaceAllLiteral",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns a copy of the input string, replacing matches of the Regexp with the replacement string replacement The replacement string is substituted directly, without using Expand",
+    "example": "regexReplaceAllLiteral \"a(x*)b\" \"-ab-axxb-\" \"${1}\""
+  },
+  "mustRegexSplit": {
+    "name": "mustRegexSplit",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Slices the input string into substrings separated by the expression and returns a slice of the substrings between those expression matches. The last parameter `n` determines the number of substrings to return, where `-1` means return all matches",
+    "example": "regexSplit \"z+\" \"pizza\" -1"
+  },
+  "mustRest": {
+    "name": "mustRest",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To get the tail of the list (everything but the first item), use `rest`. `rest $myList` returns `[2 3 4 5]` `rest` panics if there is a problem while `mustRest` returns an error to the template engine if there is a problem."
+  },
+  "mustReverse": {
+    "name": "mustReverse",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Produce a new list with the reversed elements of the given list.",
+    "example": "reverse $myList"
+  },
+  "mustSlice": {
+    "name": "mustSlice",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To get partial elements of a list, use `slice list [n] [m]`. It is equivalent of `list[n:m]`. - `slice $myList` returns `[1 2 3 4 5]`. It is same as `myList[:]`. - `slice $myList 3` returns `[4 5]`. It is same as `myList[3:]`. - `slice $myList 1 3` returns `[2 3]`. It is same as `myList[1:3]`. - `slice $myList 0 3` returns `[1 2 3]`. It is same as `myList[:3]`. `slice` panics if there is a problem while `mustSlice` returns an error to the template engine if there is a problem."
+  },
+  "mustToDate": {
+    "name": "mustToDate",
+    "source": "sprig",
+    "category": "date",
+    "description": "`toDate` converts a string to a date. The first argument is the date layout and the second the date string. If the string can't be convert it returns the zero value. `mustToDate` will return an error in case the string cannot be converted. This is useful when you want to convert a string date to another format (using pipe). The example below converts \"2017-12-31\" to \"31/12/2017\".",
+    "example": "toDate \"2006-01-02\" \"2017-12-31\" | date \"02/01/2006\""
+  },
+  "mustToJson": {
+    "name": "mustToJson",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `toJson` function encodes an item into a JSON string. If the item cannot be converted to JSON the function will return an empty string. `mustToJson` will return an error in case the item cannot be encoded in JSON.",
+    "example": "toJson .Item"
+  },
+  "mustToPrettyJson": {
+    "name": "mustToPrettyJson",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `toPrettyJson` function encodes an item into a pretty (indented) JSON string.",
+    "example": "toPrettyJson .Item"
+  },
+  "mustToRawJson": {
+    "name": "mustToRawJson",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `toRawJson` function encodes an item into JSON string with HTML characters unescaped.",
+    "example": "toRawJson .Item"
+  },
+  "mustUniq": {
+    "name": "mustUniq",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Generate a list with all of the duplicates removed.",
+    "example": "list 1 1 1 2 | uniq"
+  },
+  "mustWithout": {
+    "name": "mustWithout",
+    "source": "sprig",
+    "category": "lists",
+    "description": "The `without` function filters items out of a list.",
+    "example": "without $myList 3"
+  },
+  "nindent": {
+    "name": "nindent",
+    "source": "sprig",
+    "category": "strings",
+    "description": "The `nindent` function is the same as the indent function, but prepends a new line to the beginning of the string.",
+    "example": "nindent 4 $lots_of_text",
+    "usage": "nindent 4 $lots_of_text"
+  },
+  "nospace": {
+    "name": "nospace",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Remove all whitespace from a string.",
+    "example": "nospace \"hello w o r l d\"",
+    "usage": "nospace \"hello w o r l d\""
+  },
+  "now": {
+    "name": "now",
+    "source": "sprig",
+    "category": "date",
+    "description": "The current date/time. Use this in conjunction with other date functions."
+  },
+  "omit": {
+    "name": "omit",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `omit` function is similar to `pick`, except it returns a new `dict` with all the keys that _do not_ match the given keys.",
+    "example": "$new := omit $myDict \"name1\" \"name3\"",
+    "usage": "$new := omit $myDict \"name1\" \"name3\""
+  },
+  "osBase": {
+    "name": "osBase",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the last element of a filepath.",
+    "example": "osBase \"/foo/bar/baz\"\nosBase \"C:\\\\foo\\\\bar\\\\baz\"",
+    "usage": "osBase \"/foo/bar/baz\""
+  },
+  "osClean": {
+    "name": "osClean",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Clean up a path.",
+    "example": "osClean \"/foo/bar/../baz\"\nosClean \"C:\\\\foo\\\\bar\\\\..\\\\baz\"",
+    "usage": "osClean \"/foo/bar/../baz\""
+  },
+  "osDir": {
+    "name": "osDir",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the directory, stripping the last part of the path. So `osDir \"/foo/bar/baz\"` returns `/foo/bar` on Linux, and `osDir \"C:\\\\foo\\\\bar\\\\baz\"` returns `C:\\\\foo\\\\bar` on Windows."
+  },
+  "osExt": {
+    "name": "osExt",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the file extension.",
+    "example": "osExt \"/foo.bar\"\nosExt \"C:\\\\foo.bar\"",
+    "usage": "osExt \"/foo.bar\""
+  },
+  "osIsAbs": {
+    "name": "osIsAbs",
+    "source": "sprig",
+    "category": "paths",
+    "description": "To check whether a file path is absolute, use `osIsAbs`."
+  },
+  "pick": {
+    "name": "pick",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `pick` function selects just the given keys out of a dictionary, creating a new `dict`.",
+    "example": "$new := pick $myDict \"name1\" \"name2\"",
+    "usage": "$new := pick $myDict \"name1\" \"name2\""
+  },
+  "pluck": {
+    "name": "pluck",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `pluck` function makes it possible to give one key and multiple maps, and get a list of all of the matches:",
+    "example": "pluck \"name1\" $myDict $myOtherDict",
+    "usage": "pluck \"name1\" $myDict $myOtherDict"
+  },
+  "plural": {
+    "name": "plural",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Pluralize a string.",
+    "example": "len $fish | plural \"one anchovy\" \"many anchovies\"",
+    "usage": "len $fish | plural \"one anchovy\" \"many anchovies\""
+  },
+  "prepend": {
+    "name": "prepend",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Push an element onto the front of a list, creating a new list.",
+    "example": "prepend $myList 0",
+    "usage": "prepend $myList 0"
+  },
+  "quote": {
+    "name": "quote",
+    "source": "sprig",
+    "category": "strings",
+    "description": "These functions wrap a string in double quotes (`quote`) or single quotes (`squote`)."
+  },
+  "randAlpha": {
+    "name": "randAlpha",
+    "source": "sprig",
+    "category": "strings",
+    "description": "These four functions generate cryptographically secure (uses ```crypto/rand```) random strings, but with different base character sets: - `randAlphaNum` uses `0-9a-zA-Z` - `randAlpha` uses `a-zA-Z` - `randNumeric` uses `0-9` - `randAscii` uses all printable ASCII characters Each of them takes one parameter: the integer length of the string.",
+    "example": "randNumeric 3"
+  },
+  "randAlphaNum": {
+    "name": "randAlphaNum",
+    "source": "sprig",
+    "category": "strings",
+    "description": "These four functions generate cryptographically secure (uses ```crypto/rand```) random strings, but with different base character sets: - `randAlphaNum` uses `0-9a-zA-Z` - `randAlpha` uses `a-zA-Z` - `randNumeric` uses `0-9` - `randAscii` uses all printable ASCII characters Each of them takes one parameter: the integer length of the string.",
+    "example": "randNumeric 3"
+  },
+  "randAscii": {
+    "name": "randAscii",
+    "source": "sprig",
+    "category": "strings",
+    "description": "These four functions generate cryptographically secure (uses ```crypto/rand```) random strings, but with different base character sets: - `randAlphaNum` uses `0-9a-zA-Z` - `randAlpha` uses `a-zA-Z` - `randNumeric` uses `0-9` - `randAscii` uses all printable ASCII characters Each of them takes one parameter: the integer length of the string.",
+    "example": "randNumeric 3"
+  },
+  "randBytes": {
+    "name": "randBytes",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `randBytes` function accepts a count `N` and generates a cryptographically secure (uses ```crypto/rand```) random sequence of `N` bytes. The sequence is returned as a base64 encoded string.",
+    "example": "randBytes 24",
+    "usage": "randBytes 24"
+  },
+  "randInt": {
+    "name": "randInt",
+    "source": "sprig",
+    "category": "math",
+    "description": "Returns a random integer value from min (inclusive) to max (exclusive).",
+    "example": "randInt 12 30",
+    "usage": "randInt 12 30"
+  },
+  "randNumeric": {
+    "name": "randNumeric",
+    "source": "sprig",
+    "category": "strings",
+    "description": "These four functions generate cryptographically secure (uses ```crypto/rand```) random strings, but with different base character sets: - `randAlphaNum` uses `0-9a-zA-Z` - `randAlpha` uses `a-zA-Z` - `randNumeric` uses `0-9` - `randAscii` uses all printable ASCII characters Each of them takes one parameter: the integer length of the string.",
+    "example": "randNumeric 3",
+    "usage": "randNumeric 3"
+  },
+  "readDir": {
+    "name": "readDir",
+    "source": "helmfile",
+    "description": "The `readDir` function returns a list of the relative paths to the files contained within the directory. (No folders included. Use `readDirEntries` if you need folders too)",
+    "example": "{{ range $index,$item := readDir \"./testdata/tmpl/sample_folder/\" }}\n  {{- $itemSplit := splitList  \"/\" $item -}}\n  {{- if contains \"\\\\\" $item -}}\n  {{- $itemSplit = splitList \"\\\\\" $item -}}\n  {{- end -}}\n  {{- $itemValue := $itemSplit | last -}}\n  {{- $itemValue -}}\n{{- end -}}",
+    "usage": "{{ range $index,$item := readDir \"./testdata/tmpl/sample_folder/\" }}"
+  },
+  "readDirEntries": {
+    "name": "readDirEntries",
+    "source": "helmfile",
+    "description": "The `readDirEntries` function returns a list of [DirEntry](https://pkg.go.dev/os#DirEntry) contained within the directory",
+    "example": "{{ range $index,$item := readDirEntries \"./testdata/tmpl/sample_folder/\" }}\n  {{- if $item.IsDir -}}\n  {{- $item.Name -}}\n  {{- end -}}\n{{- end -}}",
+    "usage": "{{ range $index,$item := readDirEntries \"./testdata/tmpl/sample_folder/\" }}"
+  },
+  "readFile": {
+    "name": "readFile",
+    "source": "helmfile",
+    "description": "The `readFile` function allows you to read a file and return its content as the function output. On failure, the template rendering will fail with an error message.",
+    "example": "{{ $fileContent := readFile \"./myfile\" }}",
+    "usage": "{{ $fileContent := readFile \"./myfile\" }}"
+  },
+  "regexFind": {
+    "name": "regexFind",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Return the first (left most) match of the regular expression in the input string",
+    "example": "regexFind \"[a-zA-Z][1-9]\" \"abcd1234\"",
+    "usage": "regexFind \"[a-zA-Z][1-9]\" \"abcd1234\""
+  },
+  "regexFindAll": {
+    "name": "regexFindAll",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns a slice of all matches of the regular expression in the input string. The last parameter n determines the number of substrings to return, where -1 means return all matches",
+    "example": "regexFindAll \"[2,4,6,8]\" \"123456789\" -1",
+    "usage": "regexFindAll \"[2,4,6,8]\" \"123456789\" -1"
+  },
+  "regexMatch": {
+    "name": "regexMatch",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns true if the input string contains any match of the regular expression.",
+    "example": "regexMatch \"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}$\" \"test@acme.com\"",
+    "usage": "regexMatch \"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\\.[A-Za-z]{2,}$\" \"test@acme.com\""
+  },
+  "regexQuoteMeta": {
+    "name": "regexQuoteMeta",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns a string that escapes all regular expression metacharacters inside the argument text; the returned string is a regular expression matching the literal text.",
+    "example": "regexQuoteMeta \"1.2.3\"",
+    "usage": "regexQuoteMeta \"1.2.3\""
+  },
+  "regexReplaceAll": {
+    "name": "regexReplaceAll",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns a copy of the input string, replacing matches of the Regexp with the replacement string replacement. Inside string replacement, $ signs are interpreted as in Expand, so for instance $1 represents the text of the first submatch",
+    "example": "regexReplaceAll \"a(x*)b\" \"-ab-axxb-\" \"${1}W\"",
+    "usage": "regexReplaceAll \"a(x*)b\" \"-ab-axxb-\" \"${1}W\""
+  },
+  "regexReplaceAllLiteral": {
+    "name": "regexReplaceAllLiteral",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Returns a copy of the input string, replacing matches of the Regexp with the replacement string replacement The replacement string is substituted directly, without using Expand",
+    "example": "regexReplaceAllLiteral \"a(x*)b\" \"-ab-axxb-\" \"${1}\"",
+    "usage": "regexReplaceAllLiteral \"a(x*)b\" \"-ab-axxb-\" \"${1}\""
+  },
+  "regexSplit": {
+    "name": "regexSplit",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Slices the input string into substrings separated by the expression and returns a slice of the substrings between those expression matches. The last parameter `n` determines the number of substrings to return, where `-1` means return all matches",
+    "example": "regexSplit \"z+\" \"pizza\" -1",
+    "usage": "regexSplit \"z+\" \"pizza\" -1"
+  },
+  "repeat": {
+    "name": "repeat",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Repeat a string multiple times:",
+    "example": "repeat 3 \"hello\"",
+    "usage": "repeat 3 \"hello\""
+  },
+  "replace": {
+    "name": "replace",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Perform simple string replacement. It takes three arguments: - string to replace - string to replace with - source string",
+    "example": "\"I Am Henry VIII\" | replace \" \" \"-\"",
+    "usage": "\"I Am Henry VIII\" | replace \" \" \"-\""
+  },
+  "required": {
+    "name": "required",
+    "source": "helmfile",
+    "description": "The `required` function returns the second argument as-is only if it is not empty. If empty, the template rendering will fail with an error message containing the first argument.",
+    "example": "{{ $requiredValue :=  $value | required \"value not set\" }}",
+    "usage": "{{ $requiredValue :=  $value | required \"value not set\" }}"
+  },
+  "requiredEnv": {
+    "name": "requiredEnv",
+    "source": "helmfile",
+    "description": "The `requiredEnv` function allows you to declare a particular environment variable as required for template rendering. If the environment variable is unset or empty, the template rendering will fail with an error message.",
+    "example": "{{ $envValue := requiredEnv \"envName\" }}",
+    "usage": "{{ $envValue := requiredEnv \"envName\" }}"
+  },
+  "rest": {
+    "name": "rest",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To get the tail of the list (everything but the first item), use `rest`. `rest $myList` returns `[2 3 4 5]` `rest` panics if there is a problem while `mustRest` returns an error to the template engine if there is a problem."
+  },
+  "reverse": {
+    "name": "reverse",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Produce a new list with the reversed elements of the given list.",
+    "example": "reverse $myList",
+    "usage": "reverse $myList"
+  },
+  "round": {
+    "name": "round",
+    "source": "sprig",
+    "category": "math",
+    "description": "Returns a float value with the remainder rounded to the given number to digits after the decimal point. `round 123.555555 3` will return `123.556`"
+  },
+  "rsa": {
+    "name": "rsa",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "Generate an RSA 4096 key"
+  },
+  "semver": {
+    "name": "semver",
+    "source": "sprig",
+    "category": "semver",
+    "description": "The `semver` function parses a string into a Semantic Version:",
+    "example": "$version := semver \"1.2.3-alpha.1+123\"",
+    "usage": "$version := semver \"1.2.3-alpha.1+123\""
+  },
+  "semverCompare": {
+    "name": "semverCompare",
+    "source": "sprig",
+    "category": "semver",
+    "description": "A more robust comparison function is provided as `semverCompare`. It returns `true` if the constraint matches, or `false` if it does not match. This version supports version ranges: - `semverCompare \"1.2.3\" \"1.2.3\"` checks for an exact match - `semverCompare \"^1.2.0\" \"1.2.3\"` checks that the major and minor versions match, and that the patch number of the second version is _greater than or equal to_ the first parameter. The SemVer functions use the [Masterminds semver library](https://github.com/Masterminds/semver), from the creators of Sprig."
+  },
+  "seq": {
+    "name": "seq",
+    "source": "sprig",
+    "category": "integer_slice",
+    "description": "Works like the bash `seq` command. * 1 parameter  (end) - will generate all counting integers between 1 and `end` inclusive. * 2 parameters (start, end) - will generate all counting integers between `start` and `end` inclusive incrementing or decrementing by 1. * 3 parameters (start, step, end) - will generate all counting integers between `start` and `end` inclusive incrementing or decrementing by `step`.",
+    "example": "seq 5       => 1 2 3 4 5\nseq -3      => 1 0 -1 -2 -3\nseq 0 2     => 0 1 2\nseq 2 -2    => 2 1 0 -1 -2\nseq 0 2 10  => 0 2 4 6 8 10\nseq 0 -2 -5 => 0 -2 -4",
+    "usage": "seq 5       => 1 2 3 4 5"
+  },
+  "set": {
+    "name": "set",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "Use `set` to add a new key/value pair to a dictionary.",
+    "example": "$_ := set $myDict \"name4\" \"value4\"",
+    "usage": "$_ := set $myDict \"name4\" \"value4\""
+  },
+  "setValueAtPath": {
+    "name": "setValueAtPath",
+    "source": "helmfile",
+    "description": "The `setValueAtPath` function allows you to set a value at a path. When has failed, the template rendering will fail with an error message.",
+    "example": "{{ $value | setValueAtPath \"path.key\" $newValue }}",
+    "usage": "{{ $value | setValueAtPath \"path.key\" $newValue }}"
+  },
+  "sha1sum": {
+    "name": "sha1sum",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `sha1sum` function receives a string, and computes it's SHA1 digest.",
+    "example": "sha1sum \"Hello world!\"",
+    "usage": "sha1sum \"Hello world!\""
+  },
+  "sha256sum": {
+    "name": "sha256sum",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `sha256sum` function receives a string, and computes it's SHA256 digest.",
+    "example": "sha256sum \"Hello world!\"",
+    "usage": "sha256sum \"Hello world!\""
+  },
+  "sha512sum": {
+    "name": "sha512sum",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "The `sha512sum` function receives a string, and computes it's SHA512 digest.",
+    "example": "sha512sum \"Hello world!\"",
+    "usage": "sha512sum \"Hello world!\""
+  },
+  "shuffle": {
+    "name": "shuffle",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Shuffle a string.",
+    "example": "shuffle \"hello\"",
+    "usage": "shuffle \"hello\""
+  },
+  "slice": {
+    "name": "slice",
+    "source": "sprig",
+    "category": "lists",
+    "description": "To get partial elements of a list, use `slice list [n] [m]`. It is equivalent of `list[n:m]`. - `slice $myList` returns `[1 2 3 4 5]`. It is same as `myList[:]`. - `slice $myList 3` returns `[4 5]`. It is same as `myList[3:]`. - `slice $myList 1 3` returns `[2 3]`. It is same as `myList[1:3]`. - `slice $myList 0 3` returns `[1 2 3]`. It is same as `myList[:3]`. `slice` panics if there is a problem while `mustSlice` returns an error to the template engine if there is a problem."
+  },
+  "snakecase": {
+    "name": "snakecase",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Convert string from camelCase to snake_case.",
+    "example": "snakecase \"FirstName\"",
+    "usage": "snakecase \"FirstName\""
+  },
+  "sortAlpha": {
+    "name": "sortAlpha",
+    "source": "sprig",
+    "category": "string_slice",
+    "description": "The `sortAlpha` function sorts a list of strings into alphabetical (lexicographical) order. It does _not_ sort in place, but returns a sorted copy of the list, in keeping with the immutability of lists."
+  },
+  "split": {
+    "name": "split",
+    "source": "sprig",
+    "category": "string_slice",
+    "description": "Split a string into a list of strings:",
+    "example": "splitList \"$\" \"foo$bar$baz\""
+  },
+  "splitList": {
+    "name": "splitList",
+    "source": "sprig",
+    "category": "string_slice",
+    "description": "Split a string into a list of strings:",
+    "example": "splitList \"$\" \"foo$bar$baz\"",
+    "usage": "splitList \"$\" \"foo$bar$baz\""
+  },
+  "splitn": {
+    "name": "splitn",
+    "source": "sprig",
+    "category": "string_slice",
+    "description": "`splitn` function splits a string into a `dict`. It is designed to make it easy to use template dot notation for accessing members:",
+    "example": "$a := splitn \"$\" 2 \"foo$bar$baz\"",
+    "usage": "$a := splitn \"$\" 2 \"foo$bar$baz\""
+  },
+  "squote": {
+    "name": "squote",
+    "source": "sprig",
+    "category": "strings",
+    "description": "These functions wrap a string in double quotes (`quote`) or single quotes (`squote`)."
+  },
+  "sub": {
+    "name": "sub",
+    "source": "sprig",
+    "category": "math",
+    "description": "To subtract, use `sub`"
+  },
+  "subf": {
+    "name": "subf",
+    "source": "sprig",
+    "category": "mathf",
+    "description": "To subtract, use `subf` This is equivalent to `7.5 - 2 - 3` and will return `2.5`:",
+    "example": "subf 7.5 2 3",
+    "usage": "subf 7.5 2 3"
+  },
+  "substr": {
+    "name": "substr",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Get a substring from a string. It takes three parameters: - start (int) - end (int) - string (string)",
+    "example": "substr 0 5 \"hello world\"",
+    "usage": "substr 0 5 \"hello world\""
+  },
+  "swapcase": {
+    "name": "swapcase",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Swap the case of a string using a word based algorithm. Conversion algorithm: - Upper case character converts to Lower case - Title case character converts to Lower case - Lower case character after Whitespace or at start converts to Title case - Other Lower case character converts to Upper case - Whitespace is defined by unicode.IsSpace(char)",
+    "example": "swapcase \"This Is A.Test\"",
+    "usage": "swapcase \"This Is A.Test\""
+  },
+  "ternary": {
+    "name": "ternary",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `ternary` function takes two values, and a test value. If the test value is true, the first value will be returned. If the test value is empty, the second value will be returned. This is similar to the c ternary operator."
+  },
+  "title": {
+    "name": "title",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Convert to title case:",
+    "example": "title \"hello world\"",
+    "usage": "title \"hello world\""
+  },
+  "toDate": {
+    "name": "toDate",
+    "source": "sprig",
+    "category": "date",
+    "description": "`toDate` converts a string to a date. The first argument is the date layout and the second the date string. If the string can't be convert it returns the zero value. `mustToDate` will return an error in case the string cannot be converted. This is useful when you want to convert a string date to another format (using pipe). The example below converts \"2017-12-31\" to \"31/12/2017\".",
+    "example": "toDate \"2006-01-02\" \"2017-12-31\" | date \"02/01/2006\"",
+    "usage": "toDate \"2006-01-02\" \"2017-12-31\" | date \"02/01/2006\""
+  },
+  "toDecimal": {
+    "name": "toDecimal",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Given a unix octal permission, produce a decimal.",
+    "example": "\"0777\" | toDecimal",
+    "usage": "\"0777\" | toDecimal"
+  },
+  "toJson": {
+    "name": "toJson",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `toJson` function encodes an item into a JSON string. If the item cannot be converted to JSON the function will return an empty string. `mustToJson` will return an error in case the item cannot be encoded in JSON.",
+    "example": "toJson .Item",
+    "usage": "toJson .Item"
+  },
+  "toPrettyJson": {
+    "name": "toPrettyJson",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `toPrettyJson` function encodes an item into a pretty (indented) JSON string.",
+    "example": "toPrettyJson .Item",
+    "usage": "toPrettyJson .Item"
+  },
+  "toRawJson": {
+    "name": "toRawJson",
+    "source": "sprig",
+    "category": "defaults",
+    "description": "The `toRawJson` function encodes an item into JSON string with HTML characters unescaped.",
+    "example": "toRawJson .Item",
+    "usage": "toRawJson .Item"
+  },
+  "toString": {
+    "name": "toString",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert to a string."
+  },
+  "toStrings": {
+    "name": "toStrings",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Given a list-like collection, produce a slice of strings.",
+    "example": "list 1 2 3 | toStrings",
+    "usage": "list 1 2 3 | toStrings"
+  },
+  "toYaml": {
+    "name": "toYaml",
+    "source": "helmfile",
+    "description": "The `toYaml` function allows you to convert a value to YAML string. When has failed, the template rendering will fail with an error message.",
+    "example": "{{ $yaml :=  $value | toYaml }}",
+    "usage": "{{ $yaml :=  $value | toYaml }}"
+  },
+  "tpl": {
+    "name": "tpl",
+    "source": "helmfile",
+    "description": "The `tpl` function allows you to render a template. When has failed, the template rendering will fail with an error message.",
+    "example": "{{ $tplValue :=  $value | tpl \"{{ .Value.key }}\" }}",
+    "usage": "{{ $tplValue :=  $value | tpl \"{{ .Value.key }}\" }}"
+  },
+  "trim": {
+    "name": "trim",
+    "source": "sprig",
+    "category": "strings",
+    "description": "The `trim` function removes space from either side of a string:",
+    "example": "trim \"   hello    \"",
+    "usage": "trim \"   hello    \""
+  },
+  "trimAll": {
+    "name": "trimAll",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Remove given characters from the front or back of a string:",
+    "example": "trimAll \"$\" \"$5.00\"",
+    "usage": "trimAll \"$\" \"$5.00\""
+  },
+  "trimPrefix": {
+    "name": "trimPrefix",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Trim just the prefix from a string:",
+    "example": "trimPrefix \"-\" \"-hello\"",
+    "usage": "trimPrefix \"-\" \"-hello\""
+  },
+  "trimSuffix": {
+    "name": "trimSuffix",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Trim just the suffix from a string:",
+    "example": "trimSuffix \"-\" \"hello-\"",
+    "usage": "trimSuffix \"-\" \"hello-\""
+  },
+  "trunc": {
+    "name": "trunc",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Truncate a string (and add no suffix)",
+    "example": "trunc 5 \"hello world\"",
+    "usage": "trunc 5 \"hello world\""
+  },
+  "uniq": {
+    "name": "uniq",
+    "source": "sprig",
+    "category": "lists",
+    "description": "Generate a list with all of the duplicates removed.",
+    "example": "list 1 1 1 2 | uniq",
+    "usage": "list 1 1 1 2 | uniq"
+  },
+  "unixEpoch": {
+    "name": "unixEpoch",
+    "source": "sprig",
+    "category": "date",
+    "description": "Returns the seconds since the unix epoch for a `time.Time`.",
+    "example": "now | unixEpoch",
+    "usage": "now | unixEpoch"
+  },
+  "unset": {
+    "name": "unset",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "Given a map and a key, delete the key from the map.",
+    "example": "$_ := unset $myDict \"name4\"",
+    "usage": "$_ := unset $myDict \"name4\""
+  },
+  "until": {
+    "name": "until",
+    "source": "sprig",
+    "category": "integer_slice",
+    "description": "The `until` function builds a range of integers.",
+    "example": "until 5",
+    "usage": "until 5"
+  },
+  "untilStep": {
+    "name": "untilStep",
+    "source": "sprig",
+    "category": "integer_slice",
+    "description": "Like `until`, `untilStep` generates a list of counting integers. But it allows you to define a start, stop, and step:",
+    "example": "untilStep 3 6 2",
+    "usage": "untilStep 3 6 2"
+  },
+  "untitle": {
+    "name": "untitle",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Remove title casing. `untitle \"Hello World\"` produces `hello world`."
+  },
+  "upper": {
+    "name": "upper",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Convert the entire string to uppercase:",
+    "example": "upper \"hello\"",
+    "usage": "upper \"hello\""
+  },
+  "urlJoin": {
+    "name": "urlJoin",
+    "source": "sprig",
+    "category": "url",
+    "description": "Joins map (produced by `urlParse`) to produce URL string",
+    "example": "urlJoin (dict \"fragment\" \"fragment\" \"host\" \"host:80\" \"path\" \"/path\" \"query\" \"query\" \"scheme\" \"http\")",
+    "usage": "urlJoin (dict \"fragment\" \"fragment\" \"host\" \"host:80\" \"path\" \"/path\" \"query\" \"query\" \"scheme\" \"http\")"
+  },
+  "urlParse": {
+    "name": "urlParse",
+    "source": "sprig",
+    "category": "url",
+    "description": "Parses string for URL and produces dict with URL parts",
+    "example": "urlParse \"http://admin:secret@server.com:8080/api?list=false#anchor\"",
+    "usage": "urlParse \"http://admin:secret@server.com:8080/api?list=false#anchor\""
+  },
+  "uuidv4": {
+    "name": "uuidv4",
+    "source": "sprig",
+    "category": "uuid",
+    "description": "Sprig can generate UUID v4 universally unique IDs.",
+    "example": "uuidv4"
+  },
+  "values": {
+    "name": "values",
+    "source": "sprig",
+    "category": "dicts",
+    "description": "The `values` function is similar to `keys`, except it returns a new `list` with all the values of the source `dict` (only one dictionary is supported).",
+    "example": "$vals := values $myDict",
+    "usage": "$vals := values $myDict"
+  },
+  "without": {
+    "name": "without",
+    "source": "sprig",
+    "category": "lists",
+    "description": "The `without` function filters items out of a list.",
+    "example": "without $myList 3",
+    "usage": "without $myList 3"
+  },
+  "wrap": {
+    "name": "wrap",
+    "source": "sprig",
+    "category": "strings",
+    "description": "Wrap text at a given column count:",
+    "example": "wrap 80 $someText",
+    "usage": "wrap 80 $someText"
+  },
+  "wrapWith": {
+    "name": "wrapWith",
+    "source": "sprig",
+    "category": "strings",
+    "description": "`wrapWith` works as `wrap`, but lets you specify the string to wrap with. (`wrap` uses `\\n`)",
+    "example": "wrapWith 5 \"\\t\" \"Hello World\"",
+    "usage": "wrapWith 5 \"\\t\" \"Hello World\""
+  }
+}

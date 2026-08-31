@@ -57,7 +57,8 @@
     "lint": "eslint .",
     "fetch-yaml-grammar": "node scripts/fetch-yaml-grammar.mjs",
     "package": "vsce package",
-    "pretest": "node scripts/fetch-yaml-grammar.mjs --if-missing"
+    "pretest": "node scripts/fetch-yaml-grammar.mjs --if-missing",
+    "build-reference": "node scripts/build-function-reference.mjs"
   },
   "devDependencies": {
     "@vscode/vsce": "^3.2.0",

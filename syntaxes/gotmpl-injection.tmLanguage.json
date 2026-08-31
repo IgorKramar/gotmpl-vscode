@@ -76,6 +76,9 @@
           "include": "#helmfile-function"
         },
         {
+          "include": "#builtin-function"
+        },
+        {
           "include": "#sprig-function"
         },
         {
@@ -127,8 +130,8 @@
       "name": "constant.numeric.gotmpl"
     },
     "helmfile-function": {
-      "comment": "Must precede #sprig-function: sprig matches on identifier shape and would otherwise swallow these first.",
-      "match": "\\b(requiredEnv|env|exec|readFile|readDir|readDirEntries|toYaml|fromYaml|setValueAtPath|getOrNil|isFile|isDir|tpl|required|eq|ne|lt|le|gt|ge|and|or|not|len|index|slice|print|printf|println|call)\\b",
+      "comment": "Functions helmfile adds on top of sprig. The list is generated from data/functions.json, not written from memory: an earlier hand-written list was wrong in both directions.",
+      "match": "\\b(env|envExec|exec|expandSecretRefs|fetchSecretValue|fromYaml|get|getOrNil|include|isDir|isFile|readDir|readDirEntries|readFile|required|requiredEnv|setValueAtPath|toYaml|tpl)\\b",
       "name": "support.function.gotmpl"
     },
     "sprig-function": {
@@ -148,6 +151,11 @@
     "operator": {
       "match": "\\||:=|=",
       "name": "keyword.operator.gotmpl"
+    },
+    "builtin-function": {
+      "comment": "Go text/template builtins. Neither helmfile nor sprig — part of the template language itself, so they get their own scope rather than being filed under whichever library the reader guesses. `slice` exists in both this list and sprig; it is matched here because the language defines it, and this rule runs first.",
+      "match": "\\b(and|call|eq|ge|gt|html|index|js|le|len|lt|ne|not|or|print|printf|println|slice|urlquery)\\b",
+      "name": "support.function.builtin.gotmpl"
     }
   }
 }

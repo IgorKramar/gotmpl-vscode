@@ -87,11 +87,29 @@ export function scopesAt(lines, lineNo, column) {
   return token ? token.scopes : [];
 }
 
+/**
+ * Column of `needle` in `row`, or -1.
+ *
+ * A bare indexOf finds substrings inside larger identifiers — "eq" inside
+ * `requiredEnv`, "include" inside `included` — and the assertion then reads
+ * scopes for the wrong token. When the needle is an identifier, require word
+ * boundaries around it; when it carries punctuation (`{{`, `:=`, `| indent`),
+ * fall back to a plain search since boundaries do not apply.
+ */
+function columnOf(row, needle) {
+  if (!/^[A-Za-z_$][A-Za-z0-9_]*$/.test(needle)) return row.indexOf(needle);
+  // `$` opens a template variable and is also a regex metacharacter, so the
+  // needle is escaped before it becomes a pattern.
+  const escaped = needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const match = row.match(new RegExp(`(?<![A-Za-z0-9_$])${escaped}(?![A-Za-z0-9_])`));
+  return match ? match.index : -1;
+}
+
 /** Scopes at the first occurrence of `needle`, searched across all lines. */
 export function scopesOf(lines, source, needle) {
   const rows = source.split(/\r?\n/);
   for (let i = 0; i < rows.length; i++) {
-    const col = rows[i].indexOf(needle);
+    const col = columnOf(rows[i], needle);
     if (col !== -1) return scopesAt(lines, i, col);
   }
   throw new Error(`not found in source: ${needle}`);
@@ -107,7 +125,7 @@ export function scopesOnLine(lines, source, lineMatches, needle) {
   const rows = source.split(/\r?\n/);
   const row = rows.findIndex(lineMatches);
   if (row === -1) throw new Error(`no line matched for: ${needle}`);
-  const col = rows[row].indexOf(needle);
+  const col = columnOf(rows[row], needle);
   if (col === -1) throw new Error(`"${needle}" not on the matched line: ${rows[row]}`);
   return scopesAt(lines, row, col);
 }
