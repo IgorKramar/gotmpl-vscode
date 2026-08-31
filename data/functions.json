@@ -83,6 +83,44 @@
     "example": "$new = append $myList 6",
     "usage": "$new = append $myList 6"
   },
+  "atoi": {
+    "name": "atoi",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert a string to an integer."
+  },
+  "b32dec": {
+    "name": "b32dec",
+    "source": "sprig",
+    "category": "encoding",
+    "description": "Encode or decode with Base32"
+  },
+  "b32enc": {
+    "name": "b32enc",
+    "source": "sprig",
+    "category": "encoding",
+    "description": "Encode or decode with Base32"
+  },
+  "b64dec": {
+    "name": "b64dec",
+    "source": "sprig",
+    "category": "encoding",
+    "description": "Encode or decode with Base64"
+  },
+  "b64enc": {
+    "name": "b64enc",
+    "source": "sprig",
+    "category": "encoding",
+    "description": "Encode or decode with Base64"
+  },
+  "base": {
+    "name": "base",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the last element of a path.",
+    "example": "base \"foo/bar/baz\"",
+    "usage": "base \"foo/bar/baz\""
+  },
   "bcrypt": {
     "name": "bcrypt",
     "source": "sprig",
@@ -121,6 +159,12 @@
     "category": "math",
     "description": "Returns the greatest float value greater than or equal to input value `ceil 123.001` will return `124.0`"
   },
+  "Cert": {
+    "name": "Cert",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "A PEM-encoded certificate"
+  },
   "chunk": {
     "name": "chunk",
     "source": "sprig",
@@ -128,6 +172,14 @@
     "description": "To split a list into chunks of given size, use `chunk size list`. This is useful for pagination.",
     "example": "chunk 3 (list 1 2 3 4 5 6 7 8)",
     "usage": "chunk 3 (list 1 2 3 4 5 6 7 8)"
+  },
+  "clean": {
+    "name": "clean",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Clean up a path.",
+    "example": "clean \"foo/bar/../baz\"",
+    "usage": "clean \"foo/bar/../baz\""
   },
   "coalesce": {
     "name": "coalesce",
@@ -239,6 +291,12 @@
     "example": "dig \"user\" \"role\" \"humanName\" \"guest\" $dict",
     "usage": "dig \"user\" \"role\" \"humanName\" \"guest\" $dict"
   },
+  "dir": {
+    "name": "dir",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the directory, stripping the last part of the path. So `dir \"foo/bar/baz\"` returns `foo/bar`."
+  },
   "div": {
     "name": "div",
     "source": "sprig",
@@ -252,6 +310,12 @@
     "description": "Perform integer division with `divf` This is equivalent to `10 / 2 / 4` and will return `1.25`:",
     "example": "divf 10 2 4",
     "usage": "divf 10 2 4"
+  },
+  "dsa": {
+    "name": "dsa",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "Generate a DSA key (L2048N256)"
   },
   "duration": {
     "name": "duration",
@@ -268,6 +332,18 @@
     "description": "Rounds a given duration to the most significant unit. Strings and `time.Duration` gets parsed as a duration, while a `time.Time` is calculated as the duration since. This return 2h",
     "example": "durationRound \"2h10m5s\"",
     "usage": "durationRound \"2h10m5s\""
+  },
+  "ecdsa": {
+    "name": "ecdsa",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "Generate an elliptic curve DSA key (P256)"
+  },
+  "ed25519": {
+    "name": "ed25519",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "Generate an Ed25519 key"
   },
   "empty": {
     "name": "empty",
@@ -322,6 +398,14 @@
     "example": "{{ $expandSecretRefs :=  $value | expandSecretRefs }}",
     "usage": "{{ $expandSecretRefs :=  $value | expandSecretRefs }}"
   },
+  "ext": {
+    "name": "ext",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the file extension.",
+    "example": "ext \"foo.bar\"",
+    "usage": "ext \"foo.bar\""
+  },
   "fail": {
     "name": "fail",
     "source": "sprig",
@@ -342,6 +426,12 @@
     "source": "sprig",
     "category": "lists",
     "description": "To get the head item on a list, use `first`. `first $myList` returns `1` `first` panics if there is a problem while `mustFirst` returns an error to the template engine if there is a problem."
+  },
+  "float64": {
+    "name": "float64",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert to a `float64`."
   },
   "floor": {
     "name": "floor",
@@ -523,6 +613,24 @@
     "example": "initials \"First Try\"",
     "usage": "initials \"First Try\""
   },
+  "int": {
+    "name": "int",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert to an `int` at the system's width."
+  },
+  "int64": {
+    "name": "int64",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert to an `int64`."
+  },
+  "isAbs": {
+    "name": "isAbs",
+    "source": "sprig",
+    "category": "paths",
+    "description": "To check whether a path is absolute, use `isAbs`."
+  },
   "isDir": {
     "name": "isDir",
     "source": "helmfile",
@@ -552,6 +660,12 @@
     "description": "Convert string from camelCase to kebab-case.",
     "example": "kebabcase \"FirstName\"",
     "usage": "kebabcase \"FirstName\""
+  },
+  "Key": {
+    "name": "Key",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "A PEM-encoded private key"
   },
   "keys": {
     "name": "keys",
@@ -856,6 +970,42 @@
     "example": "$new := omit $myDict \"name1\" \"name3\"",
     "usage": "$new := omit $myDict \"name1\" \"name3\""
   },
+  "osBase": {
+    "name": "osBase",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the last element of a filepath.",
+    "example": "osBase \"/foo/bar/baz\"\nosBase \"C:\\\\foo\\\\bar\\\\baz\"",
+    "usage": "osBase \"/foo/bar/baz\""
+  },
+  "osClean": {
+    "name": "osClean",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Clean up a path.",
+    "example": "osClean \"/foo/bar/../baz\"\nosClean \"C:\\\\foo\\\\bar\\\\..\\\\baz\"",
+    "usage": "osClean \"/foo/bar/../baz\""
+  },
+  "osDir": {
+    "name": "osDir",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the directory, stripping the last part of the path. So `osDir \"/foo/bar/baz\"` returns `/foo/bar` on Linux, and `osDir \"C:\\\\foo\\\\bar\\\\baz\"` returns `C:\\\\foo\\\\bar` on Windows."
+  },
+  "osExt": {
+    "name": "osExt",
+    "source": "sprig",
+    "category": "paths",
+    "description": "Return the file extension.",
+    "example": "osExt \"/foo.bar\"\nosExt \"C:\\\\foo.bar\"",
+    "usage": "osExt \"/foo.bar\""
+  },
+  "osIsAbs": {
+    "name": "osIsAbs",
+    "source": "sprig",
+    "category": "paths",
+    "description": "To check whether a file path is absolute, use `osIsAbs`."
+  },
   "pick": {
     "name": "pick",
     "source": "sprig",
@@ -1066,6 +1216,12 @@
     "category": "math",
     "description": "Returns a float value with the remainder rounded to the given number to digits after the decimal point. `round 123.555555 3` will return `123.556`"
   },
+  "rsa": {
+    "name": "rsa",
+    "source": "sprig",
+    "category": "crypto",
+    "description": "Generate an RSA 4096 key"
+  },
   "semver": {
     "name": "semver",
     "source": "sprig",
@@ -1218,9 +1374,7 @@
     "name": "ternary",
     "source": "sprig",
     "category": "defaults",
-    "description": "The `ternary` function takes two values, and a test value. If the test value is true, the first value will be returned. If the test value is empty, the second value will be returned. This is similar to the c ternary operator. ### true test value",
-    "example": "ternary \"foo\" \"bar\" true",
-    "usage": "ternary \"foo\" \"bar\" true"
+    "description": "The `ternary` function takes two values, and a test value. If the test value is true, the first value will be returned. If the test value is empty, the second value will be returned. This is similar to the c ternary operator."
   },
   "title": {
     "name": "title",
@@ -1269,6 +1423,12 @@
     "description": "The `toRawJson` function encodes an item into JSON string with HTML characters unescaped.",
     "example": "toRawJson .Item",
     "usage": "toRawJson .Item"
+  },
+  "toString": {
+    "name": "toString",
+    "source": "sprig",
+    "category": "conversion",
+    "description": "Convert to a string."
   },
   "toStrings": {
     "name": "toStrings",
@@ -1401,6 +1561,13 @@
     "description": "Parses string for URL and produces dict with URL parts",
     "example": "urlParse \"http://admin:secret@server.com:8080/api?list=false#anchor\"",
     "usage": "urlParse \"http://admin:secret@server.com:8080/api?list=false#anchor\""
+  },
+  "uuidv4": {
+    "name": "uuidv4",
+    "source": "sprig",
+    "category": "uuid",
+    "description": "Sprig can generate UUID v4 universally unique IDs.",
+    "example": "uuidv4"
   },
   "values": {
     "name": "values",

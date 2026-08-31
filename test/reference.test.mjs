@@ -86,6 +86,31 @@ test("функция без пересечения слиянием не тро�
   assert.equal(merged.trim.overrides, undefined);
 });
 
+test("списочная форма даёт записи", () => {
+  // encoding.md документирует функции только списком: заголовочный разбор
+  // возвращал по этой странице ноль, и её функции терялись целиком.
+  const found = byName(parseSprigPage(fixture("sprig-encoding.md"), "encoding"));
+  for (const name of ["b64enc", "b64dec", "b32enc", "b32dec"]) {
+    assert.ok(found[name], `${name} не разобран`);
+    assert.ok(found[name].description, `${name} без описания`);
+  }
+});
+
+test("заголовки третьего уровня считаются функциями", () => {
+  // paths.md держит функции на ###, а ## занимает прозой.
+  const found = byName(parseSprigPage(fixture("sprig-paths.md"), "paths"));
+  for (const name of ["base", "dir", "clean"]) {
+    assert.ok(found[name], `${name} не разобран`);
+  }
+  assert.ok(!found.Paths, "прозаический раздел не должен становиться функцией");
+});
+
+test("страница про одну функцию с именем в блоке разбирается", () => {
+  const found = byName(parseSprigPage(fixture("sprig-uuid.md"), "uuid"));
+  assert.ok(found.uuidv4, "uuidv4 не разобран");
+  assert.ok(found.uuidv4.description, "uuidv4 без описания");
+});
+
 // --- U9: completeness, checked by a second independent path ----------------
 
 /**
@@ -96,18 +121,41 @@ test("функция без пересечения слиянием не тро�
 function countHeadingsIndependently() {
   const names = new Set();
   for (const file of readdirSync(DOCS)) {
-    for (const line of fixture(file).split("\n")) {
-      const sprig = line.match(/^## (.+)$/);
-      if (sprig) {
-        for (const chunk of sprig[1].split(",")) {
+    const text = fixture(file);
+    let sawAny = false;
+    for (const line of text.split("\n")) {
+      // headings, second or third level
+      const heading = line.match(/^#{2,3} (.+)$/);
+      if (heading) {
+        for (const chunk of heading[1].split(",")) {
           for (const part of chunk.split(" and ")) {
             const name = part.trim();
-            if (/^[a-z][A-Za-z0-9_]*$/.test(name)) names.add(name);
+            if (/^[a-z][A-Za-z0-9_]*$/.test(name)) {
+              names.add(name);
+              sawAny = true;
+            }
           }
         }
       }
+      // list items: - `a`/`b`: description
+      const item = line.match(/^\s*-\s+(`[A-Za-z0-9_]+`(?:\s*\/\s*`[A-Za-z0-9_]+`)*)\s*:/);
+      if (item) {
+        for (const [, name] of item[1].matchAll(/`([A-Za-z0-9_]+)`/g)) {
+          names.add(name);
+          sawAny = true;
+        }
+      }
+      // helmfile headings
       const helmfile = line.match(/^#### `([^`]+)`$/);
-      if (helmfile) names.add(helmfile[1]);
+      if (helmfile) {
+        names.add(helmfile[1]);
+        sawAny = true;
+      }
+    }
+    // a page naming its single function only inside a fenced block
+    if (!sawAny) {
+      const fence = text.match(/```[a-z]*\n\s*([a-z][A-Za-z0-9_]*)\s*\n```/);
+      if (fence) names.add(fence[1]);
     }
   }
   return names;
@@ -150,7 +198,7 @@ test("число записей без примера закреплено", () 
   // В образцах примера нет у now, untitle и пары quote/squote: их общий
   // раздел в документации описание несёт, а фенсированный блок — нет.
   const counts = summarize(parseAllFixtures());
-  assert.equal(counts.withoutExample, 4);
+  assert.equal(counts.withoutExample, 9);
 });
 
 test("usage вызывает свою функцию, а не ту, чьё имя её содержит", () => {

@@ -59,10 +59,38 @@ function usageFrom(example, name) {
   return whole.test(first) ? first : undefined;
 }
 
-/** Parse one sprig documentation page. Returns entries in document order. */
+/**
+ * Functions documented as a list item rather than a heading:
+ *
+ *     - `b64enc`/`b64dec`: Encode or decode with Base64
+ *
+ * `docs/encoding.md` uses this shape for every function it describes, so a
+ * heading-only parser silently returned nothing for that whole page.
+ */
+function parseSprigList(text, page) {
+  const entries = [];
+  for (const line of text.split("\n")) {
+    const item = line.match(/^\s*-\s+(`[A-Za-z0-9_]+`(?:\s*\/\s*`[A-Za-z0-9_]+`)*)\s*:\s*(.+)$/);
+    if (!item) continue;
+    const names = [...item[1].matchAll(/`([A-Za-z0-9_]+)`/g)].map((m) => m[1]);
+    const description = item[2].trim();
+    for (const name of names) {
+      entries.push({ name, source: "sprig", category: page || undefined, description });
+    }
+  }
+  return entries;
+}
+
+/**
+ * Parse one sprig documentation page. Returns entries in document order.
+ *
+ * Both `##` and `###` count as function headings: `docs/paths.md` keeps its
+ * functions at the third level and uses the second for prose ("Paths",
+ * "Filepaths"), so reading only `##` there yields nothing at all.
+ */
 export function parseSprigPage(text, page = "") {
   const entries = [];
-  for (const section of text.split(/^## /m).slice(1)) {
+  for (const section of text.split(/^#{2,3} /m).slice(1)) {
     const [heading, ...rest] = section.split("\n");
     const body = rest.join("\n");
     const names = splitSprigHeading(heading);
@@ -79,7 +107,36 @@ export function parseSprigPage(text, page = "") {
       });
     }
   }
+  // A page may document functions either way; encoding.md uses only the list
+  // form, and a heading page yields nothing here, so both run and merge.
+  const seen = new Set(entries.map((e) => e.name));
+  for (const entry of parseSprigList(text, page)) {
+    if (!seen.has(entry.name)) entries.push(entry);
+  }
+  if (entries.length === 0) {
+    const single = parseSprigSingleFunctionPage(text, page);
+    if (single) entries.push(single);
+  }
   return entries;
+}
+
+/**
+ * A page describing exactly one function, naming it only inside a fenced block:
+ * `docs/uuid.md` is the whole of this case. Deliberately narrow — it applies
+ * only when neither headings nor list items produced anything, and only when
+ * the block holds a bare identifier.
+ */
+function parseSprigSingleFunctionPage(text, page) {
+  const fence = text.match(/```[a-z]*\n\s*([a-z][A-Za-z0-9_]*)\s*\n```/);
+  if (!fence) return undefined;
+  const intro = text.split("\n").find((line) => line.trim() && !line.startsWith("#"));
+  return {
+    name: fence[1],
+    source: "sprig",
+    category: page || undefined,
+    description: intro?.trim() ?? "",
+    example: fence[1],
+  };
 }
 
 /** Parse the helmfile page. Its headings are `#### ` plus a backticked name. */
@@ -171,32 +228,47 @@ async function fetchPage(rawUrl, apiUrl) {
   }
 }
 
-async function fetchText(url) {
-  return attemptFetch(url);
-}
-
 if (import.meta.main) {
-  const results = await Promise.allSettled(
-    SPRIG_PAGES.map(async (page) =>
-      parseSprigPage(await fetchPage(`${SPRIG_RAW}/${page}.md`, `${SPRIG_API}/${page}.md?ref=master`), page),
-    ),
-  );
-  const failed = SPRIG_PAGES.filter((_, i) => results[i].status === "rejected");
+  const sources = [
+    ...SPRIG_PAGES.map((page) => ({
+      label: `sprig/${page}`,
+      fetch: () => fetchPage(`${SPRIG_RAW}/${page}.md`, `${SPRIG_API}/${page}.md?ref=master`),
+      parse: (text) => parseSprigPage(text, page),
+    })),
+    {
+      label: "helmfile",
+      fetch: () => attemptFetch(HELMFILE_URL),
+      parse: parseHelmfilePage,
+    },
+  ];
 
-  // A partial download must never overwrite the committed reference: the file
-  // would silently lose whole categories, and nothing downstream could tell
-  // that from a source that genuinely shrank.
-  if (failed.length > 0) {
-    console.error("Could not fetch every sprig page, so the reference was left untouched:");
-    for (const [i, page] of SPRIG_PAGES.entries()) {
-      if (results[i].status === "rejected") console.error(`  ${page}: ${results[i].reason.message}`);
-    }
-    console.error("\nBoth the raw CDN and the Contents API refused these pages.");
+  const results = await Promise.allSettled(
+    sources.map(async ({ fetch: get, parse, label }) => {
+      const entries = parse(await get());
+      // A page that parses to nothing is a failure wearing success. The CDN can
+      // answer 200 with an error page, and a reformatted source parses to zero
+      // just as quietly — neither raises, and the count check below passes
+      // trivially on an empty result. Every documentation page has functions.
+      if (entries.length === 0) throw new Error("parsed to zero functions — source changed or is not the expected page");
+      return { label, entries };
+    }),
+  );
+
+  // A partial or empty download must never overwrite the committed reference:
+  // the file would silently lose whole categories, and nothing downstream could
+  // tell that from a source that genuinely shrank.
+  const failures = results
+    .map((r, i) => (r.status === "rejected" ? `  ${sources[i].label}: ${r.reason.message}` : null))
+    .filter(Boolean);
+  if (failures.length > 0) {
+    console.error("The reference was left untouched — these sources did not yield functions:");
+    for (const line of failures) console.error(line);
     process.exit(1);
   }
 
-  const sprig = results.flatMap((r) => r.value);
-  const helmfile = parseHelmfilePage(await fetchText(HELMFILE_URL));
+  const parsed = results.map((r) => r.value);
+  const sprig = parsed.filter((r) => r.label !== "helmfile").flatMap((r) => r.entries);
+  const helmfile = parsed.find((r) => r.label === "helmfile").entries;
   const functions = mergeEntries(sprig, helmfile);
 
   writeFileSync(OUT, `${JSON.stringify(functions, null, 2)}\n`);
