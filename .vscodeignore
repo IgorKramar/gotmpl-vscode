@@ -9,3 +9,8 @@ node_modules/**
 vendor/**
 images/*.svg
 examples/**
+images/before.png
+images/after.png
+images/before-after.png
+images/hover.png
+images/diagnostics.png

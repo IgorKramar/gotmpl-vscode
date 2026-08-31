@@ -3,7 +3,7 @@
 Syntax highlighting, hover docs, completion and diagnostics for `*.yaml.gotmpl`
 files — helmfile and friends.
 
-<!-- screenshot:before-after -->
+![The same file without and with the extension](https://raw.githubusercontent.com/IgorKramar/gotmpl-vscode/main/images/before-after.png)
 
 ## Why
 
@@ -33,7 +33,7 @@ example. The reference covers 216 functions, generated from the sprig and
 helmfile documentation. Where helmfile overrides a sprig function — `env` and
 `get` — the hover says so.
 
-<!-- screenshot:hover -->
+![Hover on a helmfile function](https://raw.githubusercontent.com/IgorKramar/gotmpl-vscode/main/images/hover.png)
 
 **Completion.** Inside `{{ … }}` you get functions from both sources and
 snippets for paired constructs that arrive already closed. Outside an action
@@ -44,7 +44,7 @@ nothing is offered: the YAML side belongs to the editor.
 at the one actually left open, and a quick fix offers to add the missing `end`
 where the insertion point can be told from indentation.
 
-<!-- screenshot:diagnostics -->
+![Diagnostics on a deliberately broken file](https://raw.githubusercontent.com/IgorKramar/gotmpl-vscode/main/images/diagnostics.png)
 
 ## What it does not do
 
