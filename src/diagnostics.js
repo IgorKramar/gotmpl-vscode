@@ -174,4 +174,34 @@ function analyze(text) {
   return findings.sort((a, b) => a.line - b.line || a.start - b.start);
 }
 
-module.exports = { analyze, MESSAGES };
+/**
+ * Where `{{ end }}` should go for a construct opened at `openLine`, or null.
+ *
+ * The block ends where indentation returns to the opening level. When that
+ * cannot be told — the construct opens at column zero, or nothing follows —
+ * this returns null and no quick fix is offered: inserting `end` in the wrong
+ * place is worse than offering nothing, because the user applies it and gets
+ * a different bug.
+ *
+ * @param {string} text
+ * @param {number} openLine
+ * @returns {{line: number, indent: string} | null}
+ */
+function endInsertionPoint(text, openLine) {
+  const lines = text.split(/\r?\n/);
+  const opening = lines[openLine];
+  if (opening === undefined) return null;
+
+  const indent = opening.match(/^\s*/)?.[0] ?? "";
+  if (indent.length === 0) return null;
+
+  for (let i = openLine + 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line.trim()) continue;
+    const here = line.match(/^\s*/)?.[0].length ?? 0;
+    if (here <= indent.length) return { line: i, indent };
+  }
+  return null;
+}
+
+module.exports = { analyze, endInsertionPoint, MESSAGES };

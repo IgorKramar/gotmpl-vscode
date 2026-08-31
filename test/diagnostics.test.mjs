@@ -113,3 +113,26 @@ test("все конструкции закрыты — молчит", () => {
   ].join("\n");
   assert.deepEqual(analyze(text), []);
 });
+
+// --- quick fix: where `end` would go --------------------------------------
+
+test("место вставки end — там, где отступ возвращается к уровню открытия", async () => {
+  const { endInsertionPoint } = await import("../src/diagnostics.js");
+  const text = [
+    "releases:",
+    "  - name: app",
+    "    values:",
+    "      {{- if .prod }}",
+    "        replicas: 2",
+    "      other: x",
+  ].join("\n");
+  assert.deepEqual(endInsertionPoint(text, 3), { line: 5, indent: "      " });
+});
+
+test("место не определяется — правка не предлагается", async () => {
+  const { endInsertionPoint } = await import("../src/diagnostics.js");
+  // Открытие на нулевом отступе: уровень возврата неотличим от чего угодно.
+  assert.equal(endInsertionPoint("{{ if .x }}\nfoo: bar", 0), null);
+  // Ничего не следует за открытием.
+  assert.equal(endInsertionPoint("a:\n  {{ if .x }}", 1), null);
+});
