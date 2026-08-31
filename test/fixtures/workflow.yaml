@@ -1,0 +1,5 @@
+name: ci
+jobs:
+  build:
+    steps:
+      - run: echo "${{ github.sha }}"

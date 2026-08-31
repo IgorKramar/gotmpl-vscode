@@ -1,0 +1,68 @@
+{
+  "name": "gotmpl-yaml-highlighter",
+  "displayName": "Gotmpl YAML Highlighter",
+  "description": "Syntax highlighting for *.yaml.gotmpl files: keeps YAML, adds Go template on top",
+  "version": "0.1.0",
+  "publisher": "IgorKramar",
+  "license": "MIT",
+  "author": "Igor Kramar",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IgorKramar/gotmpl-vscode.git"
+  },
+  "engines": {
+    "vscode": "^1.75.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "gotmpl",
+    "helmfile",
+    "go template",
+    "yaml",
+    "helm"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "yaml-gotmpl",
+        "aliases": [
+          "YAML Go Template",
+          "yaml-gotmpl"
+        ],
+        "filenamePatterns": [
+          "*.yaml.gotmpl"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "yaml-gotmpl",
+        "scopeName": "source.yaml.gotmpl",
+        "path": "./syntaxes/yaml-gotmpl.tmLanguage.json"
+      },
+      {
+        "scopeName": "gotmpl.injection",
+        "path": "./syntaxes/gotmpl-injection.tmLanguage.json",
+        "injectTo": [
+          "source.yaml.gotmpl"
+        ]
+      }
+    ]
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\"",
+    "lint": "eslint .",
+    "fetch-yaml-grammar": "node scripts/fetch-yaml-grammar.mjs",
+    "package": "vsce package",
+    "pretest": "node scripts/fetch-yaml-grammar.mjs --if-missing"
+  },
+  "devDependencies": {
+    "@vscode/vsce": "^3.2.0",
+    "eslint": "^9.17.0",
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.1.0"
+  }
+}

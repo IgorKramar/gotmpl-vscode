@@ -1,0 +1,3 @@
+# Ansible-style templating in an ordinary YAML file.
+host: "{{ ansible_host }}"
+port: {{ ansible_port }}

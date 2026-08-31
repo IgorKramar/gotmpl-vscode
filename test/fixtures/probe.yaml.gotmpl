@@ -1,0 +1,4 @@
+top: {{ requiredEnv "IMAGE_TAG" }}
+quoted: "prefix {{ requiredEnv "IMAGE_NAME" }} suffix"
+block: |
+  raw {{ requiredEnv "HOST" }} line
