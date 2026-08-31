@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.4.0
+
+- Diagnostics for unclosed actions and unbalanced constructs: a construct with
+  no `{{ end }}`, a stray `end`, an `else` outside `if` or `with`. On nested
+  constructs the report points at the one actually left open.
+- A quick fix offers to add the missing `{{ end }}`, but only where the
+  insertion point can be told from indentation. Where it cannot, no fix is
+  offered: putting `end` in the wrong place is worse than offering nothing.
+- `{{` inside a YAML comment stays silent. Inside a quoted string it is
+  reported only when what follows looks like a template expression, so prose
+  such as `"use {{ to interpolate"` is left alone.
+
 ## 0.3.0
 
 - Hover on a template keyword or a function shows what it does, with an example.
