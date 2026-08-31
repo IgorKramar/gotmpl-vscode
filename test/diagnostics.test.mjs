@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
-import { analyze, MESSAGES } from "../src/diagnostics.js";
+import { analyze, endInsertionPoint, MESSAGES } from "../src/diagnostics.js";
 
 const messages = (text) => analyze(text).map((f) => f.message);
 
@@ -53,12 +53,33 @@ test("эталонный helmfile молчит", (t) => {
   assert.deepEqual(found.map((f) => `строка ${f.line + 1}: ${f.message}`), []);
 });
 
-test("молчание содержательно: внесение ошибки в корректную фикстуру находится", () => {
-  // Без этого проверки выше проходили бы и на разборе, который не находит ничего.
-  const clean = readFileSync("test/fixtures/constructs.yaml.gotmpl", "utf8");
-  assert.deepEqual(analyze(clean), [], "фикстура должна быть корректной");
-  const broken = `${clean}\n        {{ if .Values.debug }}\n`;
-  assert.deepEqual(analyze(broken).map((f) => f.message), [MESSAGES.unclosedConstruct("if")]);
+test("молчание содержательно: ошибка находится в каждой фикстуре", () => {
+  // Без этого проверки выше проходили бы и на разборе, который не находит
+  // ничего. Проверяется каждая фикстура, а не одна: слепота может быть
+  // частичной — разбор видит конструкции в одном контексте и не видит в другом.
+  const dir = "test/fixtures";
+  const fixtures = readdirSync(dir).filter((f) => f.endsWith(".gotmpl"));
+  assert.ok(fixtures.length >= 4, "корпус должен быть непустым");
+
+  for (const file of fixtures) {
+    const clean = readFileSync(`${dir}/${file}`, "utf8");
+    assert.deepEqual(analyze(clean), [], `${file}: фикстура должна быть корректной`);
+    const broken = `${clean}\n{{ if .Values.debug }}\n`;
+    assert.deepEqual(
+      analyze(broken).map((f) => f.message),
+      [MESSAGES.unclosedConstruct("if")],
+      `${file}: внесённая ошибка не найдена — разбор слеп на этом файле`,
+    );
+  }
+});
+
+test("несколько незакрытых конструкций дают разные точки вставки", () => {
+  const text = "a:\n  {{ if .x }}\n    b: 1\n  {{ range .y }}\n    c: 2\n  d: 3";
+  const unclosed = analyze(text).filter((f) => f.message.startsWith("Unclosed `"));
+  assert.equal(unclosed.length, 2);
+  const points = unclosed.map((f) => endInsertionPoint(text, f.line));
+  assert.notDeepEqual(points[0], points[1], "две правки не должны целить в одну строку");
+  assert.ok(points.every(Boolean), "обе точки определимы на этом примере");
 });
 
 // --- what it must find -----------------------------------------------------
@@ -116,8 +137,7 @@ test("все конструкции закрыты — молчит", () => {
 
 // --- quick fix: where `end` would go --------------------------------------
 
-test("место вставки end — там, где отступ возвращается к уровню открытия", async () => {
-  const { endInsertionPoint } = await import("../src/diagnostics.js");
+test("место вставки end — там, где отступ возвращается к уровню открытия", () => {
   const text = [
     "releases:",
     "  - name: app",
@@ -129,8 +149,7 @@ test("место вставки end — там, где отступ возвра
   assert.deepEqual(endInsertionPoint(text, 3), { line: 5, indent: "      " });
 });
 
-test("место не определяется — правка не предлагается", async () => {
-  const { endInsertionPoint } = await import("../src/diagnostics.js");
+test("место не определяется — правка не предлагается", () => {
   // Открытие на нулевом отступе: уровень возврата неотличим от чего угодно.
   assert.equal(endInsertionPoint("{{ if .x }}\nfoo: bar", 0), null);
   // Ничего не следует за открытием.
