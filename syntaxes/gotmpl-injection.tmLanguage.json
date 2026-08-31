@@ -1,0 +1,153 @@
+{
+  "name": "Go Template in YAML",
+  "scopeName": "gotmpl.injection",
+  "injectionSelector": "L:source.yaml.gotmpl -comment -meta.embedded.block.gotmpl",
+  "patterns": [
+    {
+      "include": "#comment"
+    },
+    {
+      "include": "#action"
+    }
+  ],
+  "repository": {
+    "comment": {
+      "comment": "Must precede #action: a template comment may contain {{ and }} that would otherwise open nested actions.",
+      "name": "comment.block.gotmpl",
+      "begin": "(\\{\\{)(-?)\\s*(/\\*)",
+      "end": "(\\*/)\\s*(-?)(\\}\\})",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.section.embedded.begin.gotmpl"
+        },
+        "2": {
+          "name": "keyword.operator.trim.gotmpl"
+        },
+        "3": {
+          "name": "punctuation.definition.comment.begin.gotmpl"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "punctuation.definition.comment.end.gotmpl"
+        },
+        "2": {
+          "name": "keyword.operator.trim.gotmpl"
+        },
+        "3": {
+          "name": "punctuation.section.embedded.end.gotmpl"
+        }
+      }
+    },
+    "action": {
+      "name": "meta.embedded.block.gotmpl",
+      "begin": "(\\{\\{)(-?)",
+      "end": "(-?)(\\}\\})",
+      "beginCaptures": {
+        "1": {
+          "name": "punctuation.section.embedded.begin.gotmpl"
+        },
+        "2": {
+          "name": "keyword.operator.trim.gotmpl"
+        }
+      },
+      "endCaptures": {
+        "1": {
+          "name": "keyword.operator.trim.gotmpl"
+        },
+        "2": {
+          "name": "punctuation.section.embedded.end.gotmpl"
+        }
+      },
+      "patterns": [
+        {
+          "include": "#keyword"
+        },
+        {
+          "include": "#string"
+        },
+        {
+          "include": "#constant"
+        },
+        {
+          "include": "#number"
+        },
+        {
+          "include": "#helmfile-function"
+        },
+        {
+          "include": "#sprig-function"
+        },
+        {
+          "include": "#variable"
+        },
+        {
+          "include": "#path"
+        },
+        {
+          "include": "#operator"
+        }
+      ]
+    },
+    "keyword": {
+      "match": "\\b(if|else\\s+if|else|end|range|with|define|template|block|break|continue)\\b",
+      "name": "keyword.control.gotmpl"
+    },
+    "string": {
+      "patterns": [
+        {
+          "name": "string.quoted.double.gotmpl",
+          "begin": "\"",
+          "end": "\"",
+          "patterns": [
+            {
+              "match": "\\\\.",
+              "name": "constant.character.escape.gotmpl"
+            }
+          ]
+        },
+        {
+          "comment": "Go raw string literal — no escapes inside.",
+          "name": "string.quoted.other.raw.gotmpl",
+          "begin": "`",
+          "end": "`"
+        },
+        {
+          "name": "string.quoted.single.gotmpl",
+          "match": "'(\\\\.|[^'])'"
+        }
+      ]
+    },
+    "constant": {
+      "match": "\\b(true|false|nil)\\b",
+      "name": "constant.language.gotmpl"
+    },
+    "number": {
+      "match": "\\b(0[xX][0-9a-fA-F]+|[0-9]+(\\.[0-9]+)?([eE][-+]?[0-9]+)?)\\b",
+      "name": "constant.numeric.gotmpl"
+    },
+    "helmfile-function": {
+      "comment": "Must precede #sprig-function: sprig matches on identifier shape and would otherwise swallow these first.",
+      "match": "\\b(requiredEnv|env|exec|readFile|readDir|readDirEntries|toYaml|fromYaml|setValueAtPath|getOrNil|isFile|isDir|tpl|required|eq|ne|lt|le|gt|ge|and|or|not|len|index|slice|print|printf|println|call)\\b",
+      "name": "support.function.gotmpl"
+    },
+    "sprig-function": {
+      "comment": "Shape-based: any bare identifier in call position. The full sprig catalog arrives with the hover reference and is not needed for coloring.",
+      "match": "(?<![.$\\w])[a-z][a-zA-Z0-9]*(?=\\s|\\)|$)",
+      "name": "entity.name.function.gotmpl"
+    },
+    "variable": {
+      "match": "\\$[a-zA-Z_][a-zA-Z0-9_]*|\\$",
+      "name": "variable.other.gotmpl"
+    },
+    "path": {
+      "comment": "A dotted path such as .Values.image.tag, and the bare dot for the current context.",
+      "match": "\\.[a-zA-Z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*|\\.",
+      "name": "variable.other.member.gotmpl"
+    },
+    "operator": {
+      "match": "\\||:=|=",
+      "name": "keyword.operator.gotmpl"
+    }
+  }
+}

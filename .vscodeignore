@@ -1,0 +1,9 @@
+.gitignore
+.vscode/**
+docs/**
+scripts/**
+test/**
+eslint.config.mjs
+**/.eslintrc.json
+node_modules/**
+vendor/**

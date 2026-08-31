@@ -1,0 +1,10 @@
+{
+  "name": "YAML Go Template",
+  "scopeName": "source.yaml.gotmpl",
+  "patterns": [
+    {
+      "comment": "The whole point: YAML stays YAML. Go template scopes arrive through the injection grammar, which targets this scope rather than source.yaml so it never leaks into other YAML files.",
+      "include": "source.yaml"
+    }
+  ]
+}
