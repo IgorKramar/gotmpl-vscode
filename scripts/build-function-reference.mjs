@@ -5,7 +5,8 @@
 // reaching the network. Only the CLI entry point below downloads anything.
 import { writeFileSync } from "node:fs";
 
-const SPRIG_BASE = "https://raw.githubusercontent.com/Masterminds/sprig/master/docs";
+const SPRIG_RAW = "https://raw.githubusercontent.com/Masterminds/sprig/master/docs";
+const SPRIG_API = "https://api.github.com/repos/Masterminds/sprig/contents/docs";
 const SPRIG_PAGES = [
   "conversion", "crypto", "date", "defaults", "dicts", "encoding",
   "flow_control", "integer_slice", "lists", "math", "mathf", "network",
@@ -43,11 +44,19 @@ function splitBody(body) {
   return { description: prose, example: fence ? fence[1].trim() : undefined };
 }
 
-/** The example's first line doubles as a usage sample when it calls the function. */
+/**
+ * The example's first line doubles as a usage sample when it calls the function.
+ *
+ * The name must appear as a whole identifier: a substring match handed `split`
+ * the example for `splitList`, because one name contains the other. A heading
+ * naming several functions carries one example, so the others simply get no
+ * usage rather than a call to their neighbour.
+ */
 function usageFrom(example, name) {
   if (!example) return undefined;
   const first = example.split("\n")[0].trim();
-  return first.includes(name) ? first : undefined;
+  const whole = new RegExp(`(?<![A-Za-z0-9_$])${name}(?![A-Za-z0-9_])`);
+  return whole.test(first) ? first : undefined;
 }
 
 /** Parse one sprig documentation page. Returns entries in document order. */
@@ -133,23 +142,60 @@ export function summarize(functions, parsed = {}) {
   };
 }
 
-async function fetchText(url) {
-  // raw.githubusercontent.com answers 400 to a request with no User-Agent, and
-  // Node's fetch sends none by default — unlike curl, which is why this works
-  // by hand and fails in the script.
+async function attemptFetch(url, headers = {}) {
   const response = await fetch(url, {
-    headers: { "user-agent": "gotmpl-yaml-highlighter build script" },
+    headers: { "user-agent": "gotmpl-yaml-highlighter build script", ...headers },
   });
-  if (!response.ok) throw new Error(`${response.status} ${response.statusText} for ${url}`);
+  if (!response.ok) throw new Error(`${response.status} ${response.statusText}`.trim());
   return response.text();
 }
 
+/**
+ * Fetch a documentation page, falling back to the Contents API.
+ *
+ * The raw CDN answers 400 for some files that exist in the repository —
+ * `docs/crypto.md` does so persistently, reproduced with curl, while the
+ * Contents API serves the same file fine. Raw stays the primary path because
+ * the API allows only 60 unauthenticated requests an hour; the fallback is
+ * spent only on pages the CDN refuses.
+ */
+async function fetchPage(rawUrl, apiUrl) {
+  try {
+    return await attemptFetch(rawUrl);
+  } catch (rawError) {
+    try {
+      return await attemptFetch(apiUrl, { accept: "application/vnd.github.raw" });
+    } catch (apiError) {
+      throw new Error(`raw: ${rawError.message}; api: ${apiError.message} for ${rawUrl}`);
+    }
+  }
+}
+
+async function fetchText(url) {
+  return attemptFetch(url);
+}
+
 if (import.meta.main) {
-  const sprig = (
-    await Promise.all(
-      SPRIG_PAGES.map(async (page) => parseSprigPage(await fetchText(`${SPRIG_BASE}/${page}.md`), page)),
-    )
-  ).flat();
+  const results = await Promise.allSettled(
+    SPRIG_PAGES.map(async (page) =>
+      parseSprigPage(await fetchPage(`${SPRIG_RAW}/${page}.md`, `${SPRIG_API}/${page}.md?ref=master`), page),
+    ),
+  );
+  const failed = SPRIG_PAGES.filter((_, i) => results[i].status === "rejected");
+
+  // A partial download must never overwrite the committed reference: the file
+  // would silently lose whole categories, and nothing downstream could tell
+  // that from a source that genuinely shrank.
+  if (failed.length > 0) {
+    console.error("Could not fetch every sprig page, so the reference was left untouched:");
+    for (const [i, page] of SPRIG_PAGES.entries()) {
+      if (results[i].status === "rejected") console.error(`  ${page}: ${results[i].reason.message}`);
+    }
+    console.error("\nBoth the raw CDN and the Contents API refused these pages.");
+    process.exit(1);
+  }
+
+  const sprig = results.flatMap((r) => r.value);
   const helmfile = parseHelmfilePage(await fetchText(HELMFILE_URL));
   const functions = mergeEntries(sprig, helmfile);
 

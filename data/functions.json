@@ -1160,8 +1160,7 @@
     "source": "sprig",
     "category": "string_slice",
     "description": "Split a string into a list of strings:",
-    "example": "splitList \"$\" \"foo$bar$baz\"",
-    "usage": "splitList \"$\" \"foo$bar$baz\""
+    "example": "splitList \"$\" \"foo$bar$baz\""
   },
   "splitList": {
     "name": "splitList",

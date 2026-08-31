@@ -113,14 +113,17 @@ function countHeadingsIndependently() {
   return names;
 }
 
+let allFixtures;
 function parseAllFixtures() {
+  if (allFixtures) return allFixtures;
   const sprig = readdirSync(DOCS)
     .filter((f) => f.startsWith("sprig-"))
     .flatMap((f) => parseSprigPage(fixture(f), f.replace(/^sprig-|\.md$/g, "")));
   const helmfile = readdirSync(DOCS)
     .filter((f) => f.startsWith("helmfile-"))
     .flatMap((f) => parseHelmfilePage(fixture(f)));
-  return mergeEntries(sprig, helmfile);
+  allFixtures = mergeEntries(sprig, helmfile);
+  return allFixtures;
 }
 
 test("число записей совпадает с независимо посчитанным по образцам", () => {
@@ -148,6 +151,15 @@ test("число записей без примера закреплено", () 
   // раздел в документации описание несёт, а фенсированный блок — нет.
   const counts = summarize(parseAllFixtures());
   assert.equal(counts.withoutExample, 4);
+});
+
+test("usage вызывает свою функцию, а не ту, чьё имя её содержит", () => {
+  // splitList содержит split: подстрочный поиск отдавал split чужой пример.
+  const entries = Object.values(JSON.parse(readFileSync("data/functions.json", "utf8")));
+  const wrong = entries.filter(
+    (e) => e.usage && !new RegExp(`(?<![A-Za-z0-9_$])${e.name}(?![A-Za-z0-9_])`).test(e.usage),
+  );
+  assert.deepEqual(wrong.map((e) => `${e.name}: ${e.usage}`), []);
 });
 
 // --- the shipped reference is the generator's output, not a hand-edited file -
