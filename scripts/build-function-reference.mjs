@@ -72,7 +72,13 @@ function parseSprigList(text, page) {
   for (const line of text.split("\n")) {
     const item = line.match(/^\s*-\s+(`[A-Za-z0-9_]+`(?:\s*\/\s*`[A-Za-z0-9_]+`)*)\s*:\s*(.+)$/);
     if (!item) continue;
-    const names = [...item[1].matchAll(/`([A-Za-z0-9_]+)`/g)].map((m) => m[1]);
+    // Same identifier test the heading path applies. Without it the list form
+    // picks up struct fields documented the same way — `docs/crypto.md` lists
+    // `Cert` and `Key`, the fields a generated certificate returns, and both
+    // landed in the reference as functions.
+    const names = [...item[1].matchAll(/`([A-Za-z0-9_]+)`/g)]
+      .map((m) => m[1])
+      .filter((name) => /^[a-z][A-Za-z0-9_]*$/.test(name));
     const description = item[2].trim();
     for (const name of names) {
       entries.push({ name, source: "sprig", category: page || undefined, description });

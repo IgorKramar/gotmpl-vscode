@@ -141,6 +141,9 @@ function countHeadingsIndependently() {
       const item = line.match(/^\s*-\s+(`[A-Za-z0-9_]+`(?:\s*\/\s*`[A-Za-z0-9_]+`)*)\s*:/);
       if (item) {
         for (const [, name] of item[1].matchAll(/`([A-Za-z0-9_]+)`/g)) {
+          // Struct fields are documented in the same list shape; a function
+          // name starts lowercase, which is what tells them apart.
+          if (!/^[a-z][A-Za-z0-9_]*$/.test(name)) continue;
           names.add(name);
           sawAny = true;
         }
@@ -188,6 +191,13 @@ test("списки имён совпадают целиком, а не толь�
   assert.deepEqual({ missing, extra }, { missing: [], extra: [] });
 });
 
+test("каждое имя — идентификатор со строчной первой буквы", () => {
+  // Не сверка, а утверждение о единице данных: сверка двух путей этого не
+  // ловит, потому что оба считали `Cert` функцией — у обоих был один пробел.
+  const wrong = Object.keys(parseAllFixtures()).filter((n) => !/^[a-z][A-Za-z0-9_]*$/.test(n));
+  assert.deepEqual(wrong, []);
+});
+
 test("записей без описания нет", () => {
   const without = Object.values(parseAllFixtures()).filter((e) => !e.description);
   assert.deepEqual(without.map((e) => e.name), []);
@@ -198,7 +208,7 @@ test("число записей без примера закреплено", () 
   // В образцах примера нет у now, untitle и пары quote/squote: их общий
   // раздел в документации описание несёт, а фенсированный блок — нет.
   const counts = summarize(parseAllFixtures());
-  assert.equal(counts.withoutExample, 9);
+  assert.equal(counts.withoutExample, 10);
 });
 
 test("usage вызывает свою функцию, а не ту, чьё имя её содержит", () => {
