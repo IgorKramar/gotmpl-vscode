@@ -133,7 +133,7 @@
     },
     "sprig-function": {
       "comment": "Shape-based: any bare identifier in call position. The full sprig catalog arrives with the hover reference and is not needed for coloring.",
-      "match": "(?<![.$\\w])[a-z][a-zA-Z0-9]*(?=\\s|\\)|$)",
+      "match": "(?<![.$\\w])[a-z][a-zA-Z0-9]*(?![\\w.])",
       "name": "entity.name.function.gotmpl"
     },
     "variable": {

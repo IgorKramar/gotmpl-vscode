@@ -116,6 +116,15 @@ test("оператор := — keyword.operator", async () => {
   assert.ok(has(op, "keyword.operator"), op.join(" "));
 });
 
+test("функция без пробелов внутри {{ }} тоже опознаётся", async () => {
+  // Регрессия: lookahead требовал пробел, скобку или конец строки, поэтому
+  // {{trim}} — валидный Go-шаблон — оставался без области функции.
+  const line = "tight: {{trim}}";
+  const lines = await tokenize(line);
+  const scopes = scopesOf(lines, line, "trim");
+  assert.ok(has(scopes, "entity.name.function"), scopes.join(" "));
+});
+
 test("комментарий шаблона поглощает вложенные {{ }}", async () => {
   const inner = await scopesOnMatchingLine(
     "constructs.yaml.gotmpl", (l) => l.includes("/*"), "{{ and }}",

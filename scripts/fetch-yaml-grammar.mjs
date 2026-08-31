@@ -20,6 +20,12 @@ const CANDIDATES = [
 
 const OUT = "vendor/yaml-syntaxes";
 
+// `--if-missing` makes this a no-op once the grammar is in place, so it can run
+// as a pretest hook without recopying on every test run.
+if (process.argv.includes("--if-missing") && existsSync(join(OUT, "yaml.tmLanguage.json"))) {
+  process.exit(0);
+}
+
 const source = CANDIDATES.find((dir) => existsSync(join(dir, "yaml.tmLanguage.json")));
 if (!source) {
   console.error("VS Code's built-in YAML grammar was not found. Looked in:");
