@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { completionsFor } from "../src/completion.js";
-import { resolveAt } from "../src/cursor.js";
+import { actionSpans } from "../src/cursor.js";
 
 const inside = (line, needle) => completionsFor(line, line.indexOf(needle) + 1);
 
@@ -63,11 +63,15 @@ test("границы вставки согласованы между разбо
   // ограничителей. Теперь источник один, и это утверждение его удерживает:
   // предложения появляются только там, где разбор видит вставку.
   const line = 'key: {{ readFile "x" }} tail';
+  const spans = actionSpans(line);
   for (let i = 0; i < line.length; i++) {
-    const inAction = resolveAt(line, i) !== null;
+    const inSpan = spans.some((s) => i >= s.open && i < s.end);
     const hasSuggestions = completionsFor(line, i).length > 0;
     if (hasSuggestions) {
-      assert.ok(inAction, `позиция ${i}: предложения есть, а разбор вставки не видит`);
+      assert.ok(inSpan, `позиция ${i}: предложения есть, а вставки в этой колонке нет`);
     }
   }
+  // И обратная сторона: внутри выражения предложения обязаны быть, иначе
+  // проверка выше проходила бы на автодополнении, не предлагающем ничего.
+  assert.ok(completionsFor(line, line.indexOf("readFile") + 2).length > 0);
 });
