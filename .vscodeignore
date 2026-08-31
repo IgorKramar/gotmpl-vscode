@@ -7,3 +7,4 @@ eslint.config.mjs
 **/.eslintrc.json
 node_modules/**
 vendor/**
+images/*.svg

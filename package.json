@@ -2,6 +2,11 @@
   "name": "gotmpl-yaml-highlighter",
   "displayName": "Gotmpl YAML Highlighter",
   "description": "Syntax highlighting for *.yaml.gotmpl files: keeps YAML, adds Go template on top",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#1a1b26",
+    "theme": "dark"
+  },
   "version": "0.4.0",
   "publisher": "IgorKramar",
   "license": "MIT",
