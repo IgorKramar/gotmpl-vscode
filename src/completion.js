@@ -31,7 +31,12 @@ function insideAction(line, character) {
   return character >= afterOpen && character <= beforeClose;
 }
 
-/** @typedef {{label: string, detail: string, documentation: string, snippet?: string}} Suggestion */
+/**
+ * `kind` is decided here, not in the provider: choosing it from the presence of
+ * a `snippet` field put keywords in the function bucket, and that decision sat
+ * in the one layer the test run cannot reach.
+ * @typedef {{label: string, kind: "snippet" | "function" | "keyword", detail: string, documentation: string, snippet?: string}} Suggestion
+ */
 
 /** @type {Suggestion[] | undefined} */
 let cached;
@@ -47,6 +52,7 @@ function staticSuggestions() {
   /** @type {Suggestion[]} */
   const suggestions = SNIPPETS.map((s) => ({
     label: s.label,
+    kind: /** @type {const} */ ("snippet"),
     detail: s.detail,
     documentation: KEYWORD_DOCS[s.label].summary,
     snippet: s.snippet,
@@ -55,6 +61,7 @@ function staticSuggestions() {
   for (const entry of Object.values(allFunctions())) {
     suggestions.push({
       label: entry.name,
+      kind: "function",
       detail: `${entry.source} function`,
       documentation: entry.description,
     });
@@ -62,7 +69,7 @@ function staticSuggestions() {
 
   for (const [name, doc] of Object.entries(KEYWORD_DOCS)) {
     if (SNIPPETS.some((s) => s.label === name)) continue;
-    suggestions.push({ label: name, detail: "template keyword", documentation: doc.summary });
+    suggestions.push({ label: name, kind: "keyword", detail: "template keyword", documentation: doc.summary });
   }
 
   cached = suggestions;

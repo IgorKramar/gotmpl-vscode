@@ -75,3 +75,18 @@ test("границы вставки согласованы между разбо
   // проверка выше проходила бы на автодополнении, не предлагающем ничего.
   assert.ok(completionsFor(line, line.indexOf("readFile") + 2).length > 0);
 });
+
+test("вид предложения решается в проверяемой части, и ключевые слова не выдаются за функции", () => {
+  // Вид выбирался в провайдере по наличию поля snippet, поэтому end, else и
+  // остальные конструкции попадали в разряд функций — а провайдер проверить
+  // нечем.
+  const items = inside("{{ x }}", "x");
+  const kindOf = (label) => items.find((i) => i.label === label)?.kind;
+  assert.equal(kindOf("if"), "snippet");
+  assert.equal(kindOf("end"), "keyword");
+  assert.equal(kindOf("else"), "keyword");
+  assert.equal(kindOf("requiredEnv"), "function");
+  assert.equal(kindOf("indent"), "function");
+  const unknown = items.filter((i) => !["snippet", "function", "keyword"].includes(i.kind));
+  assert.deepEqual(unknown.map((i) => i.label), []);
+});

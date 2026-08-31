@@ -10,6 +10,13 @@ const { completionsFor } = require("./completion.js");
 
 const LANGUAGE = "yaml-gotmpl";
 
+/** Suggestion kind -> editor kind. A table, so the provider decides nothing. */
+const COMPLETION_KIND = {
+  snippet: vscode.CompletionItemKind.Snippet,
+  function: vscode.CompletionItemKind.Function,
+  keyword: vscode.CompletionItemKind.Keyword,
+};
+
 /** @param {vscode.ExtensionContext} context */
 function activate(context) {
   context.subscriptions.push(
@@ -35,12 +42,7 @@ function activate(context) {
       provideCompletionItems(document, position) {
         const line = document.lineAt(position.line).text;
         return completionsFor(line, position.character).map((suggestion) => {
-          const item = new vscode.CompletionItem(
-            suggestion.label,
-            suggestion.snippet
-              ? vscode.CompletionItemKind.Snippet
-              : vscode.CompletionItemKind.Function,
-          );
+          const item = new vscode.CompletionItem(suggestion.label, COMPLETION_KIND[suggestion.kind]);
           item.detail = suggestion.detail;
           item.documentation = new vscode.MarkdownString(suggestion.documentation);
           if (suggestion.snippet) item.insertText = new vscode.SnippetString(suggestion.snippet);
